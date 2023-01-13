@@ -107,6 +107,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder =
                     new NotificationCompat.Builder(this, channelId)
                             .setSmallIcon(R.drawable.ic_stat_lotus_logo_png)
+                            .setColor(getResources().getColor(R.color.purple_700))
                             .setContentTitle(title)
                             .setContentText(Html.fromHtml(messageBody, FROM_HTML_MODE_LEGACY))
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(messageBody, FROM_HTML_MODE_LEGACY)))
@@ -118,6 +119,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder =
                     new NotificationCompat.Builder(this, channelId)
                             .setSmallIcon(R.drawable.ic_stat_lotus_logo_png)
+                            .setColor(getResources().getColor(R.color.purple_700))
                             .setContentTitle(title)
                             .setContentText(Html.fromHtml(messageBody, FROM_HTML_MODE_LEGACY))
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(messageBody, FROM_HTML_MODE_LEGACY)))
