@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress ALL -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <group
+            android:id="@+id/menu_bottom"
+
+            android:checkableBehavior="none">
+
+            <item
+                android:id="@+id/nav_student_profile"
+                android:icon="@drawable/icon_home"
+                android:title="Home"
+
+                app:showAsAction="ifRoom" />
+        </group>
+
+        <group
+            android:id="@+id/menu_bottom2"
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/icon_about"
+                android:title="About "
+
+
+                />
+        </group>
+        <group
+            android:id="@+id/menu_bottom3"
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_helpandsupport"
+                android:icon="@drawable/help"
+                android:title="Help and Support" />
+        </group>
+        <group
+            android:id="@+id/menu_bottom4"
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_myresults"
+                android:icon="@drawable/icon_results"
+                android:title="My Results" />
+        </group>
+        <group
+            android:id="@+id/menu_bottom55"
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_practice_earn"
+                android:icon="@drawable/icon_results"
+                android:title="Practice &amp; Earn" />
+        </group>
+
+        <group
+            android:id="@+id/menu_bottom56"
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_refer_earn"
+                android:icon="@drawable/icon_results"
+                android:title="Refer &amp; Earn" />
+        </group>
+        <!--    <group-->
+        <!--        android:id="@+id/menu_bottom7"-->
+        <!--        android:checkableBehavior="none">-->
+        <!--        <item-->
+        <!--            android:id="@+id/nav_privancy"-->
+        <!--            android:title="Privacy"-->
+        <!--            android:icon="@drawable/pri"-->
+        <!--            />-->
+        <!--    </group>-->
+        <group
+            android:id="@+id/menu_bottom8"
+
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/signout"
+                android:title="Logout"
+
+                />
+        </group>
+        <group
+            android:id="@+id/menu_bottom9"
+            android:checkableBehavior="none">
+            <item
+                android:id="@+id/nav_report"
+                android:icon="@drawable/rep"
+                android:title="Report"
+
+
+                />
+        </group>
+    </group>
+</menu>

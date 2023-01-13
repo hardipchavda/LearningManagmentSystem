@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1082073415945",
+    "project_id": "preplms",
+    "storage_bucket": "preplms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082073415945:android:7dc672db2bd6e3b74a53d8",
+        "android_client_info": {
+          "package_name": "com.icss.learningmanagmentsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082073415945-ps0615frg0qbblesin4idstilg6bnh7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfRd9kpsHFHMTHjAyljPDkSu1I6Hgnt5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082073415945-ps0615frg0qbblesin4idstilg6bnh7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
