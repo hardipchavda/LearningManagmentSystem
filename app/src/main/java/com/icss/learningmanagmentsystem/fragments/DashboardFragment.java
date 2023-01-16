@@ -303,7 +303,10 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
-                Log.e("ttt", "selCalledTwo2");
+                Utils.setPrefData("isDetailFetched", "true", mContext);
+                Utils.setPrefData("DetailFetched", "" + System.currentTimeMillis(), mContext);
+
+                fetchDashboardData();
                 if (pd.isShowing()) {
                     pd.cancel();
                 }
@@ -319,8 +322,9 @@ public class DashboardFragment extends Fragment {
         Map<String, String> params = new HashMap<>();
         Log.e("ttt", Utils.getPrefData(USER_ID, mContext));
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
+//        params.put("userid", "23");
         params.put("categoryid", Utils.getPrefData(CATEGORY_ID, mContext));
-
+        Log.e("ttt", "test" + params.toString());
         apiInterface.fetchDashboardData(params).enqueue(new Callback<DashboardResponse>() {
             @Override
             public void onResponse(Call<DashboardResponse> call, Response<DashboardResponse> response) {
@@ -377,7 +381,8 @@ public class DashboardFragment extends Fragment {
 
     @OnClick(R.id.imgRateUs)
     public void onRateUs() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getActivity().getPackageName())));
+        String url = "https://play.google.com/store/apps/details?id="+mContext.getPackageName();
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
 }

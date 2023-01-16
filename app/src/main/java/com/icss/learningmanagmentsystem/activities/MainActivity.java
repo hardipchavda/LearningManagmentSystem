@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
     };
     CircleImageView imgUser;
     AppCompatTextView tvUserName;
+    AppCompatTextView tvLogin;
+    AppCompatTextView tvCategory;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
@@ -113,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        Utils.setPrefData(USER_ID,"33", MainActivity.this);
         toolbarText = findViewById(R.id.txt);
+        tvLogin = findViewById(R.id.tvLogin);
+        tvCategory = findViewById(R.id.tvCategory);
         init();
         registerReceiver(broadcastReceiver, new IntentFilter("change"));
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new DashboardFragment()).commit();
@@ -216,6 +221,8 @@ public class MainActivity extends AppCompatActivity {
         pd.setCancelable(false);
         FirebaseMessaging.getInstance().subscribeToTopic(GENERAL_TOPIC);
         Utils.insertTopic(mContext,GENERAL_TOPIC);
+        tvLogin.setText("User: "+Utils.getPrefData(USER_ID, mContext));
+        tvCategory.setText("Category: "+Utils.getPrefData(CATEGORY_ID, mContext));
     }
 
     public void setUserData() {
