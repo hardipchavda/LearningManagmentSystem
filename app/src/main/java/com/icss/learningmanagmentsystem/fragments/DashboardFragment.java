@@ -379,6 +379,7 @@ public class DashboardFragment extends Fragment {
         startActivity(i);
     }
 
+    
     @OnClick(R.id.imgRateUs)
     public void onRateUs() {
         String url = "https://play.google.com/store/apps/details?id="+mContext.getPackageName();
