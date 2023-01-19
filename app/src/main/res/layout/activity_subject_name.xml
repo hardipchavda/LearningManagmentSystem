@@ -7,7 +7,7 @@
     android:orientation="vertical"
 
     android:background="#F6F6F6"
-    tools:context="com.icss.learningmanagmentsystem.activities.TopicsActivity">
+    tools:context="app.preplotus.activities.TopicsActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

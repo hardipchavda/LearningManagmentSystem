@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F6F6F6"
     android:orientation="vertical"
-    tools:context="com.icss.learningmanagmentsystem.activities.SubscriptionActivity">
+    tools:context="app.preplotus.activities.SubscriptionActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/toolbar"

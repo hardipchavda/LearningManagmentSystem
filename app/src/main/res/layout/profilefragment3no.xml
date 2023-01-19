@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/greyTrans2"
-    tools:context="com.icss.learningmanagmentsystem.activities.TopicsActivity">
+    tools:context="app.preplotus.activities.TopicsActivity">
 
 
     <LinearLayout

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/greyTrans"
-    tools:context="com.icss.learningmanagmentsystem.fragments.SolutionFragment">
+    tools:context="app.preplotus.fragments.SolutionFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -194,7 +194,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold" />
 
-                <com.icss.learningmanagmentsystem.utilities.TouchyWebView
+                <app.preplotus.utilities.TouchyWebView
                     android:id="@+id/webViewSolution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

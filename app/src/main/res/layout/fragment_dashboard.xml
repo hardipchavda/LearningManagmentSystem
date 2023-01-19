@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/greyTrans2"
     android:orientation="vertical"
-    tools:context="com.icss.learningmanagmentsystem.fragments.DashboardFragment">
+    tools:context="app.preplotus.fragments.DashboardFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

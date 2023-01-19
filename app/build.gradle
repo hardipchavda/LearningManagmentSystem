@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.icss.learningmanagmentsystem"
+        applicationId "app.preplotus"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

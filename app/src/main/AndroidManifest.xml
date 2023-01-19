@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.icss.learningmanagmentsystem">
+    package="app.preplotus"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".MyApp"
+        android:name="app.preplotus.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,13 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp">
 
-        <activity android:name=".activities.ResultsActivity"/>
-        <activity android:name=".activities.QuestionActivity" />
-        <activity android:name=".activities.InstructionActivity" />
-        <activity android:name=".activities.SubTopicsActivity" />
-        <activity android:name=".activities.TopicsActivity" />
-        <activity android:name=".activities.SubscriptionActivity" />
-        <activity android:name=".activities.SplashScreenActivity">
+        <activity android:name="app.preplotus.activities.ResultsActivity"/>
+        <activity android:name="app.preplotus.activities.QuestionActivity" />
+        <activity android:name="app.preplotus.activities.InstructionActivity" />
+        <activity android:name="app.preplotus.activities.SubTopicsActivity" />
+        <activity android:name="app.preplotus.activities.TopicsActivity" />
+        <activity android:name="app.preplotus.activities.SubscriptionActivity" />
+        <activity android:name="app.preplotus.activities.SplashScreenActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +31,7 @@
 
         </activity>
 
-        <activity android:name=".activities.LoginOptionsActivity" />
+        <activity android:name="app.preplotus.activities.LoginOptionsActivity" />
 
 
         <meta-data
@@ -59,34 +60,34 @@
         </activity>
 
 
-        <activity android:name=".activities.CategoryActivity">
+        <activity android:name="app.preplotus.activities.CategoryActivity">
 
         </activity>
 
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.TestsActivity" />
-        <activity android:name=".activities.MySubscriptionsActivity" />
-        <activity android:name=".activities.HomeImageActivity" />
-        <activity android:name=".activities.ViewAllActivity" />
+        <activity android:name="app.preplotus.activities.MainActivity" />
+        <activity android:name="app.preplotus.activities.TestsActivity" />
+        <activity android:name="app.preplotus.activities.MySubscriptionsActivity" />
+        <activity android:name="app.preplotus.activities.HomeImageActivity" />
+        <activity android:name="app.preplotus.activities.ViewAllActivity" />
 
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.ForgotPasswordActivity" />
-        <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.ContactUsActivity" />
-        <activity android:name=".activities.ResetPasswordActivity" />
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.ChangePasswordActivity" />
-        <activity android:name=".activities.ContentActivity" />
-        <activity android:name=".activities.NotesActivity" />
-        <activity android:name=".activities.MyResultsActivity" />
-        <activity android:name=".activities.SuperGroupsActivity" />
-        <activity android:name=".activities.PracticeEarnActivity" />
-        <activity android:name=".activities.ReferEarnActivity" />
-        <activity android:name=".activities.MyCoinsActivity" />
-        <activity android:name=".activities.SubjectTopicsActivity" />
+        <activity android:name="app.preplotus.activities.LoginActivity" />
+        <activity android:name="app.preplotus.activities.ForgotPasswordActivity" />
+        <activity android:name="app.preplotus.activities.SignUpActivity" />
+        <activity android:name="app.preplotus.activities.ContactUsActivity" />
+        <activity android:name="app.preplotus.activities.ResetPasswordActivity" />
+        <activity android:name="app.preplotus.activities.SettingsActivity" />
+        <activity android:name="app.preplotus.activities.ChangePasswordActivity" />
+        <activity android:name="app.preplotus.activities.ContentActivity" />
+        <activity android:name="app.preplotus.activities.NotesActivity" />
+        <activity android:name="app.preplotus.activities.MyResultsActivity" />
+        <activity android:name="app.preplotus.activities.SuperGroupsActivity" />
+        <activity android:name="app.preplotus.activities.PracticeEarnActivity" />
+        <activity android:name="app.preplotus.activities.ReferEarnActivity" />
+        <activity android:name="app.preplotus.activities.MyCoinsActivity" />
+        <activity android:name="app.preplotus.activities.SubjectTopicsActivity" />
 
         <service
-            android:name=".utilities.MyFirebaseMessagingService"
+            android:name="app.preplotus.utilities.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

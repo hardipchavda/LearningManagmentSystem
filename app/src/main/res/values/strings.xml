@@ -7,12 +7,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
-    <string name="facebook_app_id">397781808643143</string>
-    <string name="fb_login_protocol_scheme">fb397781808643143</string>
+    <string name="facebook_app_id">730704728380211</string>
+    <string name="fb_login_protocol_scheme">ea4456a08b0029b399d146e1e5b615af</string>
 
 
-    <string name="google_client_id">816271751467\-15kb4nuejkd0i4ka267b2580t1kh2hd3.apps.googleusercontent.com</string>
-    <string name="google_client_secret">GOCSPX\-tpzqYNQORP9kVuPGdUGrsunLsRXV</string>
+    <string name="google_client_id">861735930564-p5brhtp99gsqaqslcpomr5pr09pt0bju.apps.googleusercontent.com</string>
+    <string name="google_client_secret">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</string>
 
     <string name="login_msg_one">Detailed Insights\nThrough Mock Tests\nAnd Subject Tests</string>
     <string name="login_msg_two">Learn\nFrom Exam\nOriented Notes</string>
@@ -153,6 +153,9 @@
     <string name="back">BACK</string>
     <string name="add_exam">Add Exam</string>
     <string name="see_result">See Result</string>
+    <string name="update_now">Update Now</string>
+    <string name="app_update">App Update</string>
+    <string name="app_update_msg">Current version of this application is outdated. New version of app is available at play store so please download it to keep up to date with latest features.</string>
     <string name="view_result">View Result</string>
     <string name="view_all_result">View All Results</string>
     <string name="attempt_again">Attempt again as Practice test</string>
