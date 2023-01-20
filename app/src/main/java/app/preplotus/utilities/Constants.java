@@ -66,6 +66,7 @@ public class Constants {
     public static final String TELEGRAM_URL = "TelegramUrl";
     public static final String APP_DETAILS_FETCH_TIME = "AppDetailFetchTime";
     public static final String TERMS_CONDITION_URL = "TermsConditionUrl";
+    public static final String CURRENT_APP_VERSION = "CurrentAppVersion";
     public static final String PRIVACY_POLICY_URL = "PrivacyPolicyUrl";
     public static final String GENERAL_TOPIC = "all_lms";
 

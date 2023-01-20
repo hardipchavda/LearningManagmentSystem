@@ -21,7 +21,8 @@
         <activity android:name="app.preplotus.activities.SubTopicsActivity" />
         <activity android:name="app.preplotus.activities.TopicsActivity" />
         <activity android:name="app.preplotus.activities.SubscriptionActivity" />
-        <activity android:name="app.preplotus.activities.SplashScreenActivity">
+        <activity android:name="app.preplotus.activities.SplashScreenActivity"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,7 +89,7 @@
 
         <service
             android:name="app.preplotus.utilities.MyFirebaseMessagingService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

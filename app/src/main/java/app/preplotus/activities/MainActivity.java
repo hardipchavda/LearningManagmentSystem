@@ -2,6 +2,7 @@ package app.preplotus.activities;
 
 import static app.preplotus.utilities.Constants.CATEGORY_ID;
 import static app.preplotus.utilities.Constants.CATEGORY_NAME;
+import static app.preplotus.utilities.Constants.CURRENT_APP_VERSION;
 import static app.preplotus.utilities.Constants.GENERAL_TOPIC;
 import static app.preplotus.utilities.Constants.SUBSCRIBED;
 import static app.preplotus.utilities.Constants.USER_ID;
@@ -15,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -221,7 +223,26 @@ public class MainActivity extends AppCompatActivity {
         Utils.insertTopic(mContext,GENERAL_TOPIC);
         tvLogin.setText("User: "+Utils.getPrefData(USER_ID, mContext));
         tvCategory.setText("Category: "+Utils.getPrefData(CATEGORY_ID, mContext));
-        MyApp.getInstance().openDialog(MainActivity.this);
+        checkForceUpdate();
+    }
+
+    private void checkForceUpdate(){
+
+        try {
+
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            if (Utils.getPrefData(CURRENT_APP_VERSION, mContext).trim().length()>0 && !version.equals(Utils.getPrefData(CURRENT_APP_VERSION, mContext))){
+                Handler hnd = new Handler();
+                hnd.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyApp.getInstance().openDialog(MainActivity.this);
+                    }
+                },1000);
+            }
+
+        } catch (Exception e){}
     }
 
     public void setUserData() {

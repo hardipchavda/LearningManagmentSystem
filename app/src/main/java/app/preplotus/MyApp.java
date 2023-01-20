@@ -2,6 +2,7 @@ package app.preplotus;
 
 import static app.preplotus.utilities.Constants.ABOUT_US;
 import static app.preplotus.utilities.Constants.APP_DETAILS_FETCH_TIME;
+import static app.preplotus.utilities.Constants.CURRENT_APP_VERSION;
 import static app.preplotus.utilities.Constants.FACEBOOK_URL;
 import static app.preplotus.utilities.Constants.INSTAGRAM_URL;
 import static app.preplotus.utilities.Constants.PRIVACY_POLICY_URL;
@@ -61,13 +62,11 @@ public class MyApp extends Application {
     private void fetchAppDetails(Context mContext) {
 
         boolean iscall = false;
-        Log.e("ttt", "called" );
         if (Utils.getPrefData(APP_DETAILS_FETCH_TIME, mContext).trim().length() == 0) {
             iscall = true;
         } else {
             long time = System.currentTimeMillis() - Long.parseLong(Utils.getPrefData(APP_DETAILS_FETCH_TIME, mContext));
             int hour = (int) TimeUnit.MILLISECONDS.toHours(time);
-            Log.e("ttt", "called" + hour);
             if (hour >= 24) {
                 iscall = true;
             }
@@ -89,6 +88,7 @@ public class MyApp extends Application {
 
                             JSONObject jo = new JSONObject(response.body().string());
                             JSONObject data = jo.getJSONObject("data");
+                            Log.e("ttt",data.toString());
                             Utils.setPrefData(ABOUT_US, data.optString("AboutUs"), mContext);
                             Utils.setPrefData(USER_GUIDE, data.optString("UserGuide"), mContext);
                             Utils.setPrefData(FACEBOOK_URL, data.optString("Facebook_url"), mContext);
@@ -96,8 +96,8 @@ public class MyApp extends Application {
                             Utils.setPrefData(TELEGRAM_URL, data.optString("Telegram_url"), mContext);
                             Utils.setPrefData(PRIVACY_POLICY_URL, data.optString("Privacy_Policy_url"), mContext);
                             Utils.setPrefData(TERMS_CONDITION_URL, data.optString("Terms_condition_url"), mContext);
+                            Utils.setPrefData(CURRENT_APP_VERSION, data.optString("Current_App_version"), mContext);
                             Utils.setPrefData(APP_DETAILS_FETCH_TIME, "" + System.currentTimeMillis(), mContext);
-                            Log.e("ttt", "called");
                         }
                     } catch (Exception e) {
                     }
