@@ -460,7 +460,7 @@
                     android:fontFamily="@font/poppins"
                     android:gravity="center_vertical"
                     android:paddingStart="5dp"
-                    android:text="Invite Your Friend And Get 7 Days Subscription Free"
+                    android:text="@string/invite_yr_fri"
                     android:textColor="@color/black"
                     android:textSize="14dp"
                     android:typeface="monospace">

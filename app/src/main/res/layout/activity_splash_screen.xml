@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16.7sp"
-        android:text="Learning By Expert"
+        android:text=""
         android:gravity="center"
         android:layout_marginTop="5dp"
         android:letterSpacing="0.0625"/>
