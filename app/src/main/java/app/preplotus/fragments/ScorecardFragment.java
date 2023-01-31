@@ -5,6 +5,7 @@ import static app.preplotus.utilities.Constants.USER_ID;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +104,7 @@ public class ScorecardFragment extends Fragment {
         } else if (((ResultsActivity) mContext).getResult_id().length()>0) {
             params.put("result_id", ((ResultsActivity) mContext).getResult_id());
         }
+        Log.e("ttt",params.toString());
         apiInterface.fetchScorecard(params).enqueue(new Callback<ScorecardResponse>() {
             @Override
             public void onResponse(Call<ScorecardResponse> call, Response<ScorecardResponse> response) {

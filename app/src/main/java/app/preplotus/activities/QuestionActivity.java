@@ -27,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+
 import app.preplotus.adapters.QuestionNumberAdapter;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.model.QuestionListResponse;
@@ -407,15 +409,19 @@ public class QuestionActivity extends AppCompatActivity {
         }
         params.put("questionarray", ja.toString());
         Log.e("ttt", ja.toString());
+        Log.e("ttt", params.toString());
         apiInterface.submitTest(params).enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
                 if (pd.isShowing()) {
                     pd.cancel();
                 }
+                Log.e("ttt","Suc"+response.code());
                 try {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                         GeneralResponse callback = response.body();
+                        Gson gsn = new Gson();
+                        Log.e("ttt","Suc"+gsn.toJson(callback));
                         Utils.showToast(mContext, callback.getMessage());
                         if (callback.getStatus().equals("success")) {
                             isTimeUp = true;
@@ -432,6 +438,7 @@ public class QuestionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                Log.e("ttt",""+t.getLocalizedMessage());
                 if (pd.isShowing()) {
                     pd.cancel();
                 }

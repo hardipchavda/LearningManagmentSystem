@@ -5,9 +5,12 @@ import static app.preplotus.utilities.Constants.USER_ID;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
@@ -52,11 +55,11 @@ public class ContactUsActivity extends AppCompatActivity {
 
         mContext = ContactUsActivity.this;
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        pd = new ProgressDialog(mContext,ProgressDialog.STYLE_SPINNER);
+        pd = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        etEmail.setText(Utils.getPrefData(USER_EMAIL,mContext));
+        etEmail.setText(Utils.getPrefData(USER_EMAIL, mContext));
         etSubject.requestFocus();
     }
 
@@ -84,31 +87,36 @@ public class ContactUsActivity extends AppCompatActivity {
 
     }
 
-    private void apiContactUs(){
+    private void apiContactUs() {
 
-        if (!pd.isShowing()){
+        if (!pd.isShowing()) {
             pd.show();
         }
 
         Map<String, String> params = new HashMap<>();
 
-        params.put("email",Utils.valE(etEmail));
-        params.put("subject",Utils.valE(etSubject));
-        params.put("description",Utils.valE(etDescription));
-        params.put("userid",Utils.getPrefData(USER_ID,mContext));
+        params.put("email", Utils.valE(etEmail));
+        params.put("subject", Utils.valE(etSubject));
+        params.put("description", Utils.valE(etDescription));
+        params.put("userid", Utils.getPrefData(USER_ID, mContext));
 
         apiInterface.apiContactUs(params).enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
-                if (pd.isShowing()){
+                if (pd.isShowing()) {
                     pd.cancel();
                 }
                 try {
-                    if (Utils.checkResponseCode(response.code(), mContext) && response.body()!=null) {
+                    if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                         GeneralResponse callback = response.body();
-                        Utils.showToast(mContext,callback.getMessage());
+//                        Utils.showToast(mContext,callback.getMessage());
                         if (callback.getStatus().equals("success")){
-                            finish();
+                        new AlertDialog.Builder(mContext).setMessage(mContext.getResources().getString(R.string.contact_us_msg_)).setCancelable(false).setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        }).show();
                         }
                     }
                 } catch (Exception e) {
@@ -117,7 +125,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                if (pd.isShowing()){
+                if (pd.isShowing()) {
                     pd.cancel();
                 }
             }

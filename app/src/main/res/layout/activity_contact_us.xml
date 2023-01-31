@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="@string/email"
+            android:text="@string/your_email"
             android:textColor="@color/grey"
             android:textSize="@dimen/_14sdp" />
 
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="@string/description"
+            android:text="@string/your_msg"
             android:textColor="@color/grey"
             android:textSize="@dimen/_14sdp" />
 

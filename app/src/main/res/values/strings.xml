@@ -52,6 +52,9 @@
     <string name="login_account">Login Account</string>
     <string name="email_address">Email Address</string>
     <string name="email">Email</string>
+    <string name="your_email">Your Email</string>
+    <string name="your_msg">Your Message</string>
+    <string name="contact_us_msg_">Your message has been sent, You will hear from us as soon as possible.</string>
     <string name="notifications">Notifications</string>
     <string name="how_it_works">How it works</string>
     <string name="my_subscription">My Subscriptions</string>
