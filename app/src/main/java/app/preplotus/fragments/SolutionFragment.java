@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+
 import app.preplotus.R;
 import app.preplotus.activities.ResultsActivity;
 import app.preplotus.adapters.QuestionPalletAdapter;
@@ -36,6 +37,7 @@ import app.preplotus.model.SolutionData;
 import app.preplotus.model.SolutionResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
+import app.preplotus.utilities.NestedWebView;
 import app.preplotus.utilities.TouchyWebView;
 import app.preplotus.utilities.Utils;
 
@@ -54,8 +56,10 @@ public class SolutionFragment extends Fragment {
 
     @BindView(R.id.tvQno)
     AppCompatTextView tvQno;
-    @BindView(R.id.tvQtitle)
-    AppCompatTextView tvQtitle;
+    //    @BindView(R.id.tvQtitle)
+//    AppCompatTextView tvQtitle;
+    @BindView(R.id.nested_webview)
+    NestedWebView webView;
     @BindView(R.id.llAnswers)
     LinearLayout llAnswers;
     @BindView(R.id.tvAttempt)
@@ -170,11 +174,13 @@ public class SolutionFragment extends Fragment {
 
         tvQno.setText("Question: " + (pos + 1));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            tvQtitle.setText("                        " + Html.fromHtml(data.getQue_title().replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            tvQtitle.setText("                        " + Html.fromHtml(data.getQue_title().replaceAll("\n", "<br>")));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            tvQtitle.setText("                        " + Html.fromHtml(data.getQue_title().replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
+//        } else {
+//            tvQtitle.setText("                        " + Html.fromHtml(data.getQue_title().replaceAll("\n", "<br>")));
+//        }
+
+        webView.loadDataWithBaseURL(null, data.getQue_title(), "text/html", "UTF-8", null);
 
         tvMaxMarks.setText(data.getMax_marks());
         tvScoredMarks.setText(data.getScored_marks());
