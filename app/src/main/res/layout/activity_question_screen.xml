@@ -170,15 +170,27 @@
                 </LinearLayout>
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvQtitle"
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/tvQtitle"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="7dp"-->
+<!--                    android:textAlignment="textStart"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="@dimen/_15sdp"-->
+<!--                    android:typeface="serif" />-->
+
+                <app.preplotus.utilities.NestedWebView
+                    android:id="@+id/nested_webview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:typeface="serif" />
+                    android:background="#000000"
+                    android:fillViewport="true"
+                    android:focusable="true"
+                    android:isScrollContainer="false"
+                    android:visibility="visible"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed" />
 
                 <ImageView
                     android:id="@+id/imgQuestion"

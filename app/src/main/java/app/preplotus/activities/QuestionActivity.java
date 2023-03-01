@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +38,8 @@ import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
 import app.preplotus.utilities.CustomDialog;
 import app.preplotus.R;
+import app.preplotus.utilities.NestedWebView;
+import app.preplotus.utilities.URLImageParser;
 import app.preplotus.utilities.Utils;
 
 import java.util.ArrayList;
@@ -64,8 +67,11 @@ public class QuestionActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView rv;
     QuestionNumberAdapter adapter;
-    @BindView(R.id.tvQtitle)
-    AppCompatTextView tvQtitle;
+//    @BindView(R.id.tvQtitle)
+//    AppCompatTextView tvQtitle;
+
+    @BindView(R.id.nested_webview)
+    NestedWebView webView;
     @BindView(R.id.tvQno)
     AppCompatTextView tvQno;
     @BindView(R.id.tvTestTitle)
@@ -239,11 +245,16 @@ public class QuestionActivity extends AppCompatActivity {
 
         tvQno.setText("Question " + (pos + 1));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            tvQtitle.setText(Html.fromHtml(data.getTitle().replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            tvQtitle.setText(Html.fromHtml(data.getTitle().replaceAll("\n", "<br>")));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+////            tvQtitle.setText(Html.fromHtml(data.getTitle().replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
+//            URLImageParser p = new URLImageParser(tvQtitle, this);
+//            Spanned htmlSpan = Html.fromHtml(data.getTitle().replaceAll("\n", "<br>"), p, null);
+//            tvQtitle.setText(htmlSpan);
+//        } else {
+//            tvQtitle.setText(Html.fromHtml(data.getTitle().replaceAll("\n", "<br>")));
+//        }
+
+        webView.loadDataWithBaseURL(null, data.getTitle(), "text/html", "UTF-8", null);
 
         tvMaxMarks.setText("Max Marks: " + data.getMarks());
 
@@ -284,7 +295,6 @@ public class QuestionActivity extends AppCompatActivity {
                 Log.e("ttt","coool");
             } else {
                 imgAnswer.setVisibility(GONE);
-                Log.e("ttt","notCoool");
             }
             final int posp = i + 1;
             view.setOnClickListener(new OnClickListener() {
