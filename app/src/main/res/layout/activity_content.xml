@@ -58,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:layout_margin="@dimen/_10sdp"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/_5sdp"
             android:lineSpacingExtra="@dimen/_2sdp"
@@ -67,6 +68,7 @@
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/_5sdp"
             android:scrollbars="none"
             android:visibility="gone"
             />
