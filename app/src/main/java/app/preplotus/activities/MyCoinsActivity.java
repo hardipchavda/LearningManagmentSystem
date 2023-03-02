@@ -96,7 +96,6 @@ public class MyCoinsActivity extends AppCompatActivity {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                         MyCoinsResponse callback = response.body();
                         if (callback.getStatus().equals("success")) {
-                            Log.e("ttt",callback.getCoinsValue());
                             try {
                                 tvCoinBalance.setText(callback.getCoinsBalance());
                                 int cnt = Integer.parseInt(callback.getCoinsBalance()) + Integer.parseInt(callback.getUsedCoins());
@@ -119,7 +118,6 @@ public class MyCoinsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MyCoinsResponse> call, Throwable t) {
-                Log.e("ttt",t.getLocalizedMessage());
                 if (pd.isShowing()) {
                     pd.cancel();
                 }

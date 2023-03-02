@@ -136,7 +136,6 @@ public class Utils {
             data = gson.fromJson(json, type);
             for (int i = 0; i < data.size(); i++) {
                 FirebaseMessaging.getInstance().subscribeToTopic(data.get(i));
-                Log.e("tttSub", data.get(i));
             }
         }
         Utils.setPrefData(NOTI_FLAG, "1", mContext);
@@ -153,7 +152,6 @@ public class Utils {
             data = gson.fromJson(json, type);
             for (int i = 0; i < data.size(); i++) {
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(data.get(i));
-                Log.e("tttUns", data.get(i));
             }
         }
         Utils.setPrefData(NOTI_FLAG, "0", mContext);

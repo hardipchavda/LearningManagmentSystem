@@ -392,13 +392,13 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
 
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
-        Log.e("ttt", s + "-" + paymentData.getData().toString());
+
         submitPaymentResponse("success", paymentData.getData().toString());
     }
 
     @Override
     public void onPaymentError(int i, String s, PaymentData paymentData) {
-        Log.e("ttt", "sr" + s);
+
         submitPaymentResponse("failed", "");
     }
 
@@ -416,7 +416,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
 
             if (status.equals("success")) {
                 JSONObject jo = new JSONObject(response);
-                Log.e("ttt", orderId);
+
                 params.put("razorpay_payment_id", jo.optString("razorpay_payment_id"));
                 params.put("razorpay_order_id", jo.optString("razorpay_order_id"));
                 params.put("razorpay_signature", jo.optString("razorpay_signature"));
@@ -443,7 +443,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                         if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
 
                             JSONObject jo = new JSONObject(response.body().string());
-                            Log.e("ttt", jo.toString());
+
                             if (jo.optString("status").equals("success") && status.equals("success")) {
 //                                {"status":"success","message":"User Subscribed Successfully"}
                                 if (coinUsed > 0) {

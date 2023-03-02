@@ -100,7 +100,7 @@ public class CategoryDialog extends BottomSheetDialogFragment {
                         superGroupTopics = new ArrayList<>();
                         MyExamsAdapter adapter = new MyExamsAdapter(mContext, list, false, CategoryDialog.this);
                         rvList.setAdapter(adapter);
-                          Log.e("ttt",new Gson().toJson(list));
+
                         for (int i = 0; i < list.size(); i++) {
                             CategoryData data = list.get(i);
 //                            if (!superGroupTopics.contains(data.getSupergroup_firebase_Name())) {
@@ -173,16 +173,11 @@ public class CategoryDialog extends BottomSheetDialogFragment {
                         FirebaseMessaging.getInstance().unsubscribeFromTopic(data.getFirebase_topic_name());
                         Utils.removeTopic(mContext,data.getFirebase_topic_name());
                         String grpTopic = data.getSupergroup_firebase_Name();
-                        Log.e("tttGrg",data.getFirebase_topic_name());
-                        Log.e("tttGr",grpTopic);
+
                         if (!superGroupTopics.contains(grpTopic)){
-                            Log.e("tttGr","true");
                             FirebaseMessaging.getInstance().unsubscribeFromTopic(grpTopic);
                             Utils.removeTopic(mContext,grpTopic);
-                        } else {
-                            Log.e("tttGr","false");
                         }
-
                     }
                 } catch (Exception e) {
                 }

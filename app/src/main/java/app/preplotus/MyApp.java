@@ -88,7 +88,6 @@ public class MyApp extends Application {
 
                             JSONObject jo = new JSONObject(response.body().string());
                             JSONObject data = jo.getJSONObject("data");
-                            Log.e("ttt",data.toString());
                             Utils.setPrefData(ABOUT_US, data.optString("AboutUs"), mContext);
                             Utils.setPrefData(USER_GUIDE, data.optString("UserGuide"), mContext);
                             Utils.setPrefData(FACEBOOK_URL, data.optString("Facebook_url"), mContext);

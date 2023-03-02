@@ -56,8 +56,7 @@ public class MyExamsAdapter extends RecyclerView.Adapter<MyExamsAdapter.viewHold
     public void onBindViewHolder(@NonNull viewHolder holder, int ppp) {
         final int position = holder.getAdapterPosition();
         final CategoryData data = list.get(position);
-        Log.e("tttGr",position+"-"+data.getFirebase_topic_name());
-        Log.e("tttGr",position+"-"+data.getSupergroup_firebase_Name());
+
         holder.tvTitle.setText(data.getCatName());
         holder.imgAction.setVisibility(View.VISIBLE);
         if (Utils.getPrefData(CATEGORY_ID, mContext).equals(data.getCatId())) {

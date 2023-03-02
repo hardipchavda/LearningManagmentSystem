@@ -174,7 +174,6 @@ public class LoginOptionsActivity extends AppCompatActivity {
                 md.update(signature.toByteArray());
                 String something = new String(Base64.encode(md.digest(), 0));
                 //String something = new String(Base64.encodeBytes(md.digest()));
-                Log.e("ttt", something);
             }
         } catch (PackageManager.NameNotFoundException e1) {
             Log.e("name not found", e1.toString());
@@ -248,7 +247,6 @@ public class LoginOptionsActivity extends AppCompatActivity {
                                     public void onCompleted(JSONObject object, GraphResponse response) {
 
                                         try {
-                                            Log.e("ttt", object.toString());
                                             callSocialLoginApi(object.optString("name"), object.optString("email"), object.optString("id"), "facebook");
 
                                         } catch (Exception e) {
@@ -286,7 +284,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            Log.e("ttt","000");
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         } else {
@@ -298,7 +296,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            Log.e("ttt","111");
+
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             callSocialLoginApi(account.getDisplayName(), account.getEmail(), account.getId(), "google");
         } catch (ApiException e) {
@@ -324,9 +322,6 @@ public class LoginOptionsActivity extends AppCompatActivity {
         if (refercode!=null && refercode.trim().length()>0){
             params.put("referel_code", refercode);
         }
-        Log.e("ttt","111"+params.toString());
-//        String msg = name + "[" + email + "[" + id + "[" + type + "[" + Utils.getPrefData(FCM_TOKEN, mContext);
-//        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 
         apiInterface.apiSocialLogin(params).enqueue(new Callback<LoginSignupResponse>() {
             @Override

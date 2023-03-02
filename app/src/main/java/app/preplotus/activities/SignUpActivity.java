@@ -90,58 +90,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-//    private void callSignupApi() {
-//        if (!pd.isShowing()) {
-//            pd.show();
-//        }
-//        Map<String, String> params = new HashMap<>();
-//
-//        params.put("name", Utils.valE(etName));
-//        params.put("email", Utils.valE(etEmail));
-//        params.put("phone", Utils.valE(etPhoneNumber));
-//        params.put("password", Utils.valE(etPassword));
-//        params.put("deviceid", Utils.getPrefData(FCM_TOKEN, mContext));
-//
-//        apiInterface.apiRegister2(params).enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                if (pd.isShowing()) {
-//                    pd.cancel();
-//                }
-//                try {
-//                    Log.e("ttt", "tell" + response.body().string());
-//                } catch (Exception e) {
-//                }
-//
-////                try {
-////                    if (Utils.checkResponseCode(response.code(), mContext) && response.body()!=null) {
-////                        LoginSignupResponse callback = response.body();
-////                        Utils.showToast(mContext,callback.getMessage());
-////                        if (callback.getStatus().equals("success")){
-////                            LoginUserData data = callback.getData();
-////                            Utils.setPrefData(USER_ID, data.getUserId(), mContext);
-////                            Utils.setPrefData(USER_NAME, data.getName(), mContext);
-////                            Utils.setPrefData(USER_EMAIL, data.getEmail(), mContext);
-////                            Intent intent= new Intent(mContext, CategoryActivity.class);
-////                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-////                            startActivity(intent);
-////                        }
-////                    }
-////                } catch (Exception e) {
-////                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                if (pd.isShowing()) {
-//                    pd.cancel();
-//                }
-//            }
-//        });
-//
-//    }
-
     private void callSignupApi() {
         if (!pd.isShowing()) {
             pd.show();

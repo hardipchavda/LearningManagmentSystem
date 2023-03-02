@@ -122,8 +122,6 @@ public class HomeFragment extends Fragment {
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
         params.put("categoryid", Utils.getPrefData(CATEGORY_ID, mContext));
 
-        Log.e("ttt",Utils.getPrefData(CATEGORY_ID, mContext));
-
         apiInterface.fetchTestsTabData(params).enqueue(new Callback<TestsTabResponse>() {
             @Override
             public void onResponse(Call<TestsTabResponse> call, Response<TestsTabResponse> response) {

@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
     };
     CircleImageView imgUser;
     AppCompatTextView tvUserName;
-    AppCompatTextView tvLogin;
-    AppCompatTextView tvCategory;
+//    AppCompatTextView tvLogin;
+//    AppCompatTextView tvCategory;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 //        Utils.setPrefData(USER_ID,"33", MainActivity.this);
         toolbarText = findViewById(R.id.txt);
-        tvLogin = findViewById(R.id.tvLogin);
-        tvCategory = findViewById(R.id.tvCategory);
+//        tvLogin = findViewById(R.id.tvLogin);
+//        tvCategory = findViewById(R.id.tvCategory);
         init();
         registerReceiver(broadcastReceiver, new IntentFilter("change"));
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new DashboardFragment()).commit();
@@ -201,12 +201,9 @@ public class MainActivity extends AppCompatActivity {
         setUserData();
 
         if ( getIntent().getStringExtra("redirect_type")!=null && getIntent().getStringExtra("redirect_type").equals("alltest")) {
-            Log.e("ttt","here");
             Intent intent = new Intent("change");
             intent.putExtra("stat", "1");
             sendBroadcast(intent);
-        } else {
-            Log.e("ttt","hereNot");
         }
 
     }
@@ -221,8 +218,8 @@ public class MainActivity extends AppCompatActivity {
         pd.setCancelable(false);
         FirebaseMessaging.getInstance().subscribeToTopic(GENERAL_TOPIC);
         Utils.insertTopic(mContext,GENERAL_TOPIC);
-        tvLogin.setText("User: "+Utils.getPrefData(USER_ID, mContext));
-        tvCategory.setText("Category: "+Utils.getPrefData(CATEGORY_ID, mContext));
+//        tvLogin.setText("User: "+Utils.getPrefData(USER_ID, mContext));
+//        tvCategory.setText("Category: "+Utils.getPrefData(CATEGORY_ID, mContext));
         checkForceUpdate();
     }
 

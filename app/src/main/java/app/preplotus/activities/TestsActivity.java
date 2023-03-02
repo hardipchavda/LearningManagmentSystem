@@ -128,8 +128,6 @@ public class TestsActivity extends AppCompatActivity {
         params.put("type", type);
         params.put("id", id);
 
-        Log.e("ttt",params.toString());
-
         apiInterface.fetchAllTests(params).enqueue(new Callback<TestsResponse>() {
             @Override
             public void onResponse(Call<TestsResponse> call, Response<TestsResponse> response) {
@@ -139,7 +137,6 @@ public class TestsActivity extends AppCompatActivity {
                 try {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                         TestsResponse callback = response.body();
-                        Log.e("ttt","resp"+new Gson().toJson(callback));
                         details = callback.getDetails();
                         TestsAdapter adapter = new TestsAdapter(mContext,callback.getExamData());
                         rvNotes.setAdapter(adapter);

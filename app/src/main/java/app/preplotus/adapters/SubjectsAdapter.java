@@ -54,7 +54,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.viewHo
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("ttt","topic"+data.getNoteHasTopics());
+
                 if (data.getNoteHasTopics()!=null && data.getNoteHasTopics().equals("1")){
                     Intent intent = new Intent(mContext, SubjectTopicsActivity.class);
                     intent.putExtra("id", data.getNoteId());

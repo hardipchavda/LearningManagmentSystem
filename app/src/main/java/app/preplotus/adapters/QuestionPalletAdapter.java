@@ -44,7 +44,7 @@ public class QuestionPalletAdapter extends RecyclerView.Adapter<QuestionPalletAd
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull QuestionPalletAdapter.QuestionViewHolder holder, int position) {
-        Log.e("ttt","here");
+
         try {
            holder.tvNumber.setText("" + (position + 1));
            final SolutionData data = list.get(position);

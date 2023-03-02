@@ -20,8 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +37,6 @@ import app.preplotus.network.APIInterface;
 import app.preplotus.utilities.CustomDialog;
 import app.preplotus.R;
 import app.preplotus.utilities.NestedWebView;
-import app.preplotus.utilities.URLImageParser;
 import app.preplotus.utilities.Utils;
 
 import java.util.ArrayList;
@@ -182,7 +179,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
         params.put("testid", testid);
-        Log.e("ttt",params.toString());
+
         apiInterface.fetchQuestions(params).enqueue(new Callback<QuestionListResponse>() {
             @Override
             public void onResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
@@ -292,7 +289,6 @@ public class QuestionActivity extends AppCompatActivity {
             if (ans_images.get(i) != null && ans_images.get(i).trim().length() > 0) {
                 Glide.with(mContext).load(ans_images.get(i)).into(imgAnswer);
                 imgAnswer.setVisibility(VISIBLE);
-                Log.e("ttt","coool");
             } else {
                 imgAnswer.setVisibility(GONE);
             }
@@ -382,7 +378,6 @@ public class QuestionActivity extends AppCompatActivity {
         if (time.equals("0")) {
             time = "1";
         }
-        Log.e("ttt", "tim" + time);
         params.put("timetaken", time);
 
         JSONArray ja = new JSONArray();
@@ -418,20 +413,18 @@ public class QuestionActivity extends AppCompatActivity {
             }
         }
         params.put("questionarray", ja.toString());
-        Log.e("ttt", ja.toString());
-        Log.e("ttt", params.toString());
         apiInterface.submitTest(params).enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
                 if (pd.isShowing()) {
                     pd.cancel();
                 }
-                Log.e("ttt","Suc"+response.code());
+
                 try {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                         GeneralResponse callback = response.body();
                         Gson gsn = new Gson();
-                        Log.e("ttt","Suc"+gsn.toJson(callback));
+
                         Utils.showToast(mContext, callback.getMessage());
                         if (callback.getStatus().equals("success")) {
                             isTimeUp = true;
@@ -448,7 +441,6 @@ public class QuestionActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                Log.e("ttt",""+t.getLocalizedMessage());
                 if (pd.isShowing()) {
                     pd.cancel();
                 }

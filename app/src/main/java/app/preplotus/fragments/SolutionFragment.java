@@ -127,7 +127,7 @@ public class SolutionFragment extends Fragment {
             params.put("result_id", ((ResultsActivity) mContext).getResult_id());
         }
 
-        Log.e("ttt", params.toString());
+
         apiInterface.fetchSolutions(params).enqueue(new Callback<SolutionResponse>() {
             @Override
             public void onResponse(Call<SolutionResponse> call, Response<SolutionResponse> response) {

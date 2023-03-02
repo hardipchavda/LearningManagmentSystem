@@ -179,7 +179,7 @@ public class DashboardFragment extends Fragment {
             if (Utils.isNetworkAvailableShowToast(mContext)) {
                 if (Utils.getPrefData("isDetailFetched", mContext).equals("true")) {
                     if (Utils.getPrefData("DetailFetched", mContext).trim().length() == 0) {
-                        Log.e("ttt", "one");
+
                         fetchSuperGroups();
                     } else {
                         long mills = System.currentTimeMillis() - Long.parseLong(Utils.getPrefData("DetailFetched", mContext));
@@ -206,8 +206,6 @@ public class DashboardFragment extends Fragment {
         Map<String, String> params = new HashMap<>();
 
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
-        Log.e("ttt", "" + params.toString());
-
 
         apiInterface.getMyExamPrefereces(params).enqueue(new Callback<MyExamPreferencesResponse>() {
             @Override
@@ -226,7 +224,7 @@ public class DashboardFragment extends Fragment {
                         for (int i = 0; i < list.size(); i++) {
                             CategoryData data = list.get(i);
                             if (data.getCatId().equals(selCatId)) {
-                                Log.e("ttt", "selSupId" + data.getSupergroup_Id());
+
                                 Utils.setPrefData(SUPER_GROUP_ID, data.getSupergroup_Id(), mContext);
                                 Utils.setPrefData(CAT_TOPIC_NAME, data.getFirebase_topic_name(), mContext);
                                 FirebaseMessaging.getInstance().subscribeToTopic(data.getFirebase_topic_name());
@@ -261,16 +259,11 @@ public class DashboardFragment extends Fragment {
         Map<String, String> params = new HashMap<>();
 
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
-//        params.put("userid", "10");
-        Log.e("ttt", "selCalledTwo");
+
         apiInterface.apiFetchSubsctiptionHistory(params).enqueue(new Callback<SubscriptionResponse>() {
             @Override
             public void onResponse(Call<SubscriptionResponse> call, Response<SubscriptionResponse> response) {
 
-//                if (pd.isShowing()) {
-//                    pd.cancel();
-//                }
-                Log.e("ttt", "selCalledTwo1");
                 if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                     try {
                         SubscriptionResponse callback = response.body();
@@ -281,7 +274,7 @@ public class DashboardFragment extends Fragment {
                             SubscriptionData data = list.get(i);
 
                             if (data.getIs_active().equals("1") && data.getSupergroup_id().equals(Utils.getPrefData(SUPER_GROUP_ID, mContext))) {
-                                Log.e("ttt", "selSupIdSubscribed");
+
                                 Utils.setPrefData(SUBSCRIBED, "yes", mContext);
                                 break;
                             } else {
@@ -292,7 +285,7 @@ public class DashboardFragment extends Fragment {
                     } catch (Exception e) {
                     }
                 }
-                Log.e("ttt", "selCalledTwo3");
+
                 Utils.setPrefData("isDetailFetched", "true", mContext);
                 Utils.setPrefData("DetailFetched", "" + System.currentTimeMillis(), mContext);
 
@@ -319,11 +312,11 @@ public class DashboardFragment extends Fragment {
             pd.show();
         }
         Map<String, String> params = new HashMap<>();
-        Log.e("ttt", Utils.getPrefData(USER_ID, mContext));
+
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
-//        params.put("userid", "23");
+
         params.put("categoryid", Utils.getPrefData(CATEGORY_ID, mContext));
-        Log.e("ttt", "test" + params.toString());
+
         apiInterface.fetchDashboardData(params).enqueue(new Callback<DashboardResponse>() {
             @Override
             public void onResponse(Call<DashboardResponse> call, Response<DashboardResponse> response) {

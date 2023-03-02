@@ -36,7 +36,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage.getData().size() > 0) {
-            Log.e("ttt", remoteMessage.getData().toString());
             sendNotification(remoteMessage.getData().get("title"),remoteMessage.getData().get("subtitle"), remoteMessage.getData().get("body"), Objects.requireNonNull(remoteMessage.getData().get("redirect_type")), remoteMessage.getData().get("notes_id"), remoteMessage.getData().get("notes_title"), remoteMessage.getData().get("test_type"), remoteMessage.getData().get("test_id"), remoteMessage.getData().get("title_subject"));
         }
     }

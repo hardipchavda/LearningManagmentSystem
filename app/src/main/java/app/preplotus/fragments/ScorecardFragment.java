@@ -104,7 +104,7 @@ public class ScorecardFragment extends Fragment {
         } else if (((ResultsActivity) mContext).getResult_id().length()>0) {
             params.put("result_id", ((ResultsActivity) mContext).getResult_id());
         }
-        Log.e("ttt",params.toString());
+
         apiInterface.fetchScorecard(params).enqueue(new Callback<ScorecardResponse>() {
             @Override
             public void onResponse(Call<ScorecardResponse> call, Response<ScorecardResponse> response) {

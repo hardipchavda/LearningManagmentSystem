@@ -72,7 +72,6 @@ public class ContentActivity extends AppCompatActivity {
         if (type.equals("aboutus")) {
             tvContent.setVisibility(View.VISIBLE);
             tvTitle.setText(getResources().getString(R.string.about_us));
-            Log.e("ttt",Utils.getPrefData(ABOUT_US, mContext));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 tvContent.setText(Html.fromHtml(Utils.getPrefData(ABOUT_US, mContext).replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
             } else {
@@ -155,18 +154,9 @@ public class ContentActivity extends AppCompatActivity {
 
                 try {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
-
-//                        JSONObject jo = new JSONObject(response.body().string());
-//                        String content = jo.optString("content");
+                        
                         String content = response.body().string();
 
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                            tvContent.setText(Html.fromHtml(content.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
-//                        } else {
-//                            tvContent.setText(Html.fromHtml(content.replaceAll("\n", "<br>")));
-//                        }
-                         Log.e("ttt",content);
-//                        webView.loadData(content, "text/html; charset=utf-8", "base64");
                         webView.loadDataWithBaseURL(null, content, null, "UTF-8", null);
                         disableCopyPaste();
                     }

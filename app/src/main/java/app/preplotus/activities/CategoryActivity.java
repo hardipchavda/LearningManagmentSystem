@@ -92,8 +92,6 @@ public class CategoryActivity extends AppCompatActivity {
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
         params.put("group_id", id);
 
-        Log.e("ttt",params.toString());
-
         apiInterface.apiGetCategories(params).enqueue(new Callback<CategoryDataResponse>() {
             @Override
             public void onResponse(Call<CategoryDataResponse> call, Response<CategoryDataResponse> response) {

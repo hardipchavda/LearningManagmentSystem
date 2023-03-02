@@ -192,10 +192,9 @@ public class NotificationsFragment extends Fragment {
                         LoginSignupResponse callback = response.body();
                         Utils.showToast(mContext,callback.getMessage());
                         Utils.setPrefData(USER_NAME, Utils.valE(etName), mContext);
-                        Log.e("ttt","tool");
 
                         if (actualImage!=null){
-                            Log.e("ttt",callback.getData().getUserImage());
+
                             Utils.setPrefData(USER_IMAGE, callback.getData().getUserImage(), mContext);
                         }
                         ((MainActivity)getActivity()).setUserData();
@@ -208,7 +207,7 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<LoginSignupResponse> call, Throwable t) {
-                Log.e("ttt","error"+t.getMessage());
+
                 if (pd.isShowing()){
                     pd.cancel();
                 }
