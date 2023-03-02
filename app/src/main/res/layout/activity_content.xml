@@ -24,10 +24,20 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_toEndOf="@+id/iconBack"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:focusable="true"
+            android:scrollHorizontally="true"
+            android:focusableInTouchMode="true"
             android:textColor="@color/white"
+            android:layout_centerVertical="true"
             android:textSize="@dimen/_17sdp" />
 
     </RelativeLayout>

@@ -123,7 +123,9 @@ public class ContentActivity extends AppCompatActivity {
             webView.setWebChromeClient(new WebChromeClient());
             fetchContent();
         }
+        disableCopyPaste();
         tvContent.setMovementMethod(new ScrollingMovementMethod());
+        tvTitle.setSelected(true);
     }
 
     @OnClick(R.id.iconBack)
@@ -166,7 +168,7 @@ public class ContentActivity extends AppCompatActivity {
                          Log.e("ttt",content);
 //                        webView.loadData(content, "text/html; charset=utf-8", "base64");
                         webView.loadDataWithBaseURL(null, content, null, "UTF-8", null);
-
+                        disableCopyPaste();
                     }
                 } catch (Exception e) {
                 }
@@ -184,6 +186,25 @@ public class ContentActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void disableCopyPaste() {
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        webView.setLongClickable(false);
+        tvContent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        tvContent.setLongClickable(false);
+        tvContent.setHapticFeedbackEnabled(false);
+        webView.setHapticFeedbackEnabled(false);
     }
 
 }

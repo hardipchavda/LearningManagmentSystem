@@ -1,7 +1,10 @@
 package app.preplotus.activities;
 
 import static app.preplotus.utilities.Constants.CATEGORY_ID;
+import static app.preplotus.utilities.Constants.USER_EMAIL;
 import static app.preplotus.utilities.Constants.USER_ID;
+import static app.preplotus.utilities.Constants.USER_IMAGE;
+import static app.preplotus.utilities.Constants.USER_NAME;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +22,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+//        Utils.setPrefData(USER_ID, "1", SplashScreenActivity.this);
+//        Utils.setPrefData(CATEGORY_ID, "1", SplashScreenActivity.this);
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -25,6 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
+                app:cardCornerRadius="8dp"
                 android:layout_weight="5">
 
                 <LinearLayout
@@ -58,6 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
+                app:cardCornerRadius="8dp"
                 android:layout_weight="5">
 
                 <LinearLayout
@@ -104,7 +106,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/tranding"></ImageView>
+                android:src="@drawable/tranding"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -117,7 +119,7 @@
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:typeface="monospace"></TextView>
+                android:typeface="monospace"/>
 
 
         </LinearLayout>
@@ -131,7 +133,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:orientation="horizontal">
@@ -140,7 +143,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/note"></ImageView>
+                android:src="@drawable/note"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,7 +156,7 @@
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                android:typeface="monospace"></TextView>
+                android:typeface="monospace"/>
 
 
         </LinearLayout>
@@ -161,8 +164,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_solid_white_rounded_two"
             android:orientation="vertical"
+            android:background="@drawable/bg_solid_white_rounded"
             android:paddingTop="5dp"
             android:paddingBottom="8dp">
 
