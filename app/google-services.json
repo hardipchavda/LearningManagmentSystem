@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "861735930564",
+    "project_id": "preplotus-28eec",
+    "storage_bucket": "preplotus-28eec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861735930564:android:021c13a49651bf56e09791",
+        "android_client_info": {
+          "package_name": "app.preplotus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861735930564-srov491op0b908bb0v57dmi275i70nub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpRf_aXmcR-cGQsG-NmoRgNBvlkiWwTGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861735930564-srov491op0b908bb0v57dmi275i70nub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

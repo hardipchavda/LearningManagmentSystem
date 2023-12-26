@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+def library_groupId = 'com.etebarian'
+def library_artifactId = 'meow-bottom-navigation-java'
+def library_versionCode = 1_0_01_02_00
+def library_versionName = '1.2.0'
+
+
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 33
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        buildFeatures {
+        }
+    }
+    buildToolsVersion '30.0.3'
+
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+}

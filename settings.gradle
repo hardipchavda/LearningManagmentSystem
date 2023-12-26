@@ -1,0 +1,3 @@
+include ':meowbottomnavigation'
+include ':app'
+rootProject.name = "Learning Managment System"

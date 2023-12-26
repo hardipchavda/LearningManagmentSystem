@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="app.preplotus">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+
+
+    <application
+        android:name="app.preplotus.MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApp">
+
+        <activity android:name="app.preplotus.activities.ResultsActivity"/>
+        <activity android:name="app.preplotus.activities.QuestionActivity" />
+        <activity android:name="app.preplotus.activities.InstructionActivity" />
+        <activity android:name="app.preplotus.activities.SubTopicsActivity" />
+        <activity android:name="app.preplotus.activities.TopicsActivity" />
+        <activity android:name="app.preplotus.activities.SubscriptionActivity" />
+        <activity android:name="app.preplotus.activities.SplashScreenActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name="app.preplotus.activities.LoginOptionsActivity" />
+
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+<!--        <meta-data-->
+<!--            android:name="com.facebook.sdk.ApplicationId"-->
+<!--            android:value="@string/facebook_app_id" />-->
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="app.preplotus.activities.CategoryActivity">
+
+        </activity>
+
+        <activity android:name="app.preplotus.activities.MainActivity" />
+        <activity android:name="app.preplotus.activities.TestsActivity" />
+        <activity android:name="app.preplotus.activities.MySubscriptionsActivity" />
+        <activity android:name="app.preplotus.activities.HomeImageActivity" />
+        <activity android:name="app.preplotus.activities.ViewAllActivity" />
+        <activity android:name="app.preplotus.activities.CCAvenueActivity" />
+        <activity android:name="app.preplotus.activities.LoginActivity" />
+        <activity android:name="app.preplotus.activities.ForgotPasswordActivity" />
+        <activity android:name="app.preplotus.activities.SignUpActivity" />
+        <activity android:name="app.preplotus.activities.ContactUsActivity" />
+        <activity android:name="app.preplotus.activities.ResetPasswordActivity" />
+        <activity android:name="app.preplotus.activities.SettingsActivity" />
+        <activity android:name="app.preplotus.activities.ChangePasswordActivity" />
+        <activity android:name="app.preplotus.activities.ContentActivity" />
+        <activity android:name="app.preplotus.activities.NotesActivity" />
+        <activity android:name="app.preplotus.activities.MyResultsActivity" />
+        <activity android:name="app.preplotus.activities.SuperGroupsActivity" />
+        <activity android:name="app.preplotus.activities.PracticeEarnActivity" />
+        <activity android:name="app.preplotus.activities.ReferEarnActivity" />
+        <activity android:name="app.preplotus.activities.MyCoinsActivity" />
+        <activity android:name="app.preplotus.activities.SubjectTopicsActivity" />
+
+        <service
+            android:name="app.preplotus.utilities.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
