@@ -76,6 +76,7 @@ public class CategoryActivity extends AppCompatActivity {
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             getCategories();
         }
+
     }
 
     @OnClick(R.id.iconBack)
