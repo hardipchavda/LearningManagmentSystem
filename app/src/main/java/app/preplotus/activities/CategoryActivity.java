@@ -77,6 +77,7 @@ public class CategoryActivity extends AppCompatActivity {
             getCategories();
         }
 
+
     }
 
     @OnClick(R.id.iconBack)
