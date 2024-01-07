@@ -18,8 +18,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -52,6 +55,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -217,6 +221,17 @@ public class MainActivity extends AppCompatActivity {
         mContext = MainActivity.this;
         apiInterface = APIClient.getClient().create(APIInterface.class);
         toolbarText.setText(Utils.getPrefData(CATEGORY_NAME, mContext));
+//        toolbarText.setText("Hello this is long header name testing for home screen");
+        Drawable drawable = ContextCompat.getDrawable(this,R.drawable.ic_down);
+        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*0.10),
+                (int)(drawable.getIntrinsicHeight()*0.10));
+//        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 35, 35);
+
+        toolbarText.setCompoundDrawables(null, null, drawable, null);
+        toolbarText.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        toolbarText.setSingleLine(true);
+        toolbarText.setMarqueeRepeatLimit(50);
+        toolbarText.setSelected(true);
         pd = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);

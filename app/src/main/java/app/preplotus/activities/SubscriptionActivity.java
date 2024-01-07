@@ -370,64 +370,64 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
     }
     public void onMakePayment(final String finalPrice, final int coinUsed) {
 
-        if (!pd.isShowing()) {
-            pd.show();
-        }
+//        if (!pd.isShowing()) {
+//            pd.show();
+//        }
+//
+//
+//
+//
+//        this.coinUsed = coinUsed;
+//        Map<String, String> params = new HashMap<>();
+//
+//        params.put("userid", Utils.getPrefData(USER_ID, mContext));
+//        params.put("supergroup_id", Utils.getPrefData(SUPER_GROUP_ID, mContext));
+//        params.put("plan_id", planId);
+//        params.put("validity_id", validityId);
+//        params.put("total_amount", "" + finalPrice);
+//
+//        apiInterface.apiCreateOrder(params).enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//
+//                try {
+//
+//                    if (pd.isShowing()) {
+//                        pd.cancel();
+//                    }
+//
+//
+//                    if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
+//
+//                        JSONObject jo = new JSONObject(response.body().string());
+//
+//                        if (jo.optString("status").equals("success")) {
+//                            String order_id = jo.optString("order_id");
+////                            String rzp_key = jo.optString("razorpay_key");
+////                            onPay(order_id, rzp_key);
+//                            onPayCCAvenue(order_id);
+//                        } else {
+//                            Utils.showToast(mContext, jo.optString("message"));
+//                        }
+//
+//                    }
+//                } catch (Exception e) {
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                if (pd.isShowing()) {
+//                    pd.cancel();
+//                }
+//            }
+//        });
 
 
 
 
-        this.coinUsed = coinUsed;
-        Map<String, String> params = new HashMap<>();
-
-        params.put("userid", Utils.getPrefData(USER_ID, mContext));
-        params.put("supergroup_id", Utils.getPrefData(SUPER_GROUP_ID, mContext));
-        params.put("plan_id", planId);
-        params.put("validity_id", validityId);
-        params.put("total_amount", "" + finalPrice);
-
-        apiInterface.apiCreateOrder(params).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                try {
-
-                    if (pd.isShowing()) {
-                        pd.cancel();
-                    }
-
-
-                    if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
-
-                        JSONObject jo = new JSONObject(response.body().string());
-
-                        if (jo.optString("status").equals("success")) {
-                            String order_id = jo.optString("order_id");
-                            //String rzp_key = jo.optString("razorpay_key");
-                           // onPay(order_id, rzp_key);
-                            onPayCCAvenue(order_id);
-                        } else {
-                            Utils.showToast(mContext, jo.optString("message"));
-                        }
-
-                    }
-                } catch (Exception e) {
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (pd.isShowing()) {
-                    pd.cancel();
-                }
-            }
-        });
-
-
-
-
-/* Previous codes for Razor Pay
+// Previous codes for Razor Pay
         if (!pd.isShowing()) {
             pd.show();
         }
@@ -473,7 +473,6 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                 }
             }
         });
-*/
     }
 
     private void onPay(final String orderId, final String rzp_key) {
@@ -552,6 +551,37 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                         if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
 
                             JSONObject jo = new JSONObject(response.body().string());
+//                            if (jo.optString("status").equals("success") && status.equals("success")) {
+////                                {"status":"success","message":"User Subscribed Successfully"}
+//                                if (coinUsed > 0) {
+//                                    redeemCoins(coinUsed);
+//                                }
+//                                Utils.setPrefData(SUBSCRIBED, "yes", mContext);
+//                                new AlertDialog.Builder(mContext).setTitle("Congratulations!").setMessage(jo.optString("message")).setCancelable(false).setPositiveButton("Go to Home", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        Intent intent = new Intent(mContext, MainActivity.class);
+//                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                        startActivity(intent);
+//                                    }
+//                                }).show();
+//                            } else {
+//                                new AlertDialog.Builder(mContext).setTitle("Payment Failed!").setMessage(jo.optString("message")).setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                }).setNegativeButton("Contact Us", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                        Intent intent = new Intent(mContext, ContactUsActivity.class);
+//                                        startActivity(intent);
+//                                    }
+//                                }).show();
+//                            }
+
+//                             Previous codes for Razor Pay
                             if (jo.optString("status").equals("success") && status.equals("success")) {
 //                                {"status":"success","message":"User Subscribed Successfully"}
                                 if (coinUsed > 0) {
@@ -571,53 +601,22 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
+                                        Intent intent = new Intent(mContext, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
                                     }
                                 }).setNegativeButton("Contact Us", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
+
                                         Intent intent = new Intent(mContext, ContactUsActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
                                         startActivity(intent);
                                     }
                                 }).show();
                             }
-
-                            /* Previous codes for Razor Pay
-                            if (jo.optString("status").equals("success") && status.equals("success")) {
-//                                {"status":"success","message":"User Subscribed Successfully"}
-                                if (coinUsed > 0) {
-                                    redeemCoins(coinUsed);
-                                }
-                                Utils.setPrefData(SUBSCRIBED, "yes", mContext);
-                                new AlertDialog.Builder(mContext).setTitle("Congratulations!").setMessage(jo.optString("message")).setCancelable(false).setPositiveButton("Go to Home", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent(mContext, MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                    }
-                                }).show();
-                            } else {
-                                new AlertDialog.Builder(mContext).setTitle("Payment Failed!").setMessage(jo.optString("message")).setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                        Intent intent = new Intent(mContext, MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                    }
-                                }).setNegativeButton("Contact Us", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-
-                                        Intent intent = new Intent(mContext, ContactUsActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                                        startActivity(intent);
-                                    }
-                                }).show();
-                            }*/
                         }
                     } catch (Exception e) {
                     }
