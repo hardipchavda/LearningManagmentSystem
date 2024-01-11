@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -166,7 +167,12 @@ public class QuestionActivity extends AppCompatActivity {
         time = getIntent().getStringExtra("time");
         title = getIntent().getStringExtra("title");
         type = getIntent().getStringExtra("type");
-        tvTestTitle.setText(title);
+//        tvTestTitle.setText(title);
+//        tvTestTitle.setText("Hello this is long header name testing for home screen");
+        tvTestTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        tvTestTitle.setSingleLine(true);
+        tvTestTitle.setMarqueeRepeatLimit(50);
+        tvTestTitle.setSelected(true);
         fetchQuestions();
     }
 

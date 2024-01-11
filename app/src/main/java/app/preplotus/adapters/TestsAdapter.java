@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -63,6 +64,11 @@ public class TestsAdapter extends RecyclerView.Adapter<TestsAdapter.viewHolder> 
         final ExamData data = examData.get(position);
 
         holder.abc_test_name.setText(data.getTitle());
+//        holder.abc_test_name.setText("Hello this is long header name testing for home screen");
+        holder.abc_test_name.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.abc_test_name.setSingleLine(true);
+        holder.abc_test_name.setMarqueeRepeatLimit(50);
+        holder.abc_test_name.setSelected(true);
         holder.time.setText(data.getTime()+" Min");
         holder.marks.setText(data.getMarks());
         holder.quetion.setText(data.getQuestions());
