@@ -66,6 +66,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/bg_facebook_btn"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:padding="@dimen/_12sdp">
 
