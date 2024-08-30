@@ -12,8 +12,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import app.preplotus.adapters.SubTopicsAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.model.SubTopicsResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -33,20 +35,20 @@ import retrofit2.Response;
 
 public class SubTopicsActivity extends AppCompatActivity {
 
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
+
     private String topicId, topicTitle;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
     private String from;
 
+    private ActivityNotesBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        binding = ActivityNotesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
@@ -64,10 +66,6 @@ public class SubTopicsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void init() {
 
@@ -77,16 +75,23 @@ public class SubTopicsActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvNotes.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
         topicId = getIntent().getStringExtra("topicId");
         topicTitle = getIntent().getStringExtra("topicTitle");
 
-        tvTitle.setText(topicTitle);
-        tvTitle.setSelected(true);
+        binding.tvTitle.setText(topicTitle);
+        binding.tvTitle.setSelected(true);
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             fetchSubTopics();
         }
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -113,7 +118,7 @@ public class SubTopicsActivity extends AppCompatActivity {
                         SubTopicsResponse callback = response.body();
 
                         SubTopicsAdapter adapter = new SubTopicsAdapter(mContext, callback.getData());
-                        rvNotes.setAdapter(adapter);
+                        binding.rvNotes.setAdapter(adapter);
 
                     }
                 } catch (Exception e) {

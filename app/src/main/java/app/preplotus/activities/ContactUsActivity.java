@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityContactUsBinding;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -32,21 +34,18 @@ import retrofit2.Response;
 
 public class ContactUsActivity extends AppCompatActivity {
 
-    @BindView(R.id.etEmail)
-    AppCompatEditText etEmail;
-    @BindView(R.id.etSubject)
-    AppCompatEditText etSubject;
-    @BindView(R.id.etDescription)
-    AppCompatEditText etDescription;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityContactUsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_us);
+        binding = ActivityContactUsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -59,26 +58,37 @@ public class ContactUsActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        etEmail.setText(Utils.getPrefData(USER_EMAIL, mContext));
-        etSubject.requestFocus();
+        binding.etEmail.setText(Utils.getPrefData(USER_EMAIL, mContext));
+        binding.etSubject.requestFocus();
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 onBackPressed();
+            }
+        });
+
+        binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                     onSubmit();
+            }
+        });
+
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.btnSubmit)
+
     public void onSubmit() {
 
         if (Utils.isNetworkAvailableShowToast(mContext)) {
-            if (Utils.isNullE(etEmail)) {
+            if (Utils.isNullE(binding.etEmail)) {
                 Utils.showToast(mContext, getResources().getString(R.string.email_msg));
-            } else if (!Utils.isValidEmail(Utils.valE(etEmail))) {
+            } else if (!Utils.isValidEmail(Utils.valE(binding.etEmail))) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_email_msg));
-            } else if (Utils.isNullE(etSubject)) {
+            } else if (Utils.isNullE(binding.etSubject)) {
                 Utils.showToast(mContext, getResources().getString(R.string.subject_msg));
-            } else if (Utils.isNullE(etDescription)) {
+            } else if (Utils.isNullE(binding.etDescription)) {
                 Utils.showToast(mContext, getResources().getString(R.string.des_msg));
             } else {
                 apiContactUs();
@@ -95,9 +105,9 @@ public class ContactUsActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<>();
 
-        params.put("email", Utils.valE(etEmail));
-        params.put("subject", Utils.valE(etSubject));
-        params.put("description", Utils.valE(etDescription));
+        params.put("email", Utils.valE(binding.etEmail));
+        params.put("subject", Utils.valE(binding.etSubject));
+        params.put("description", Utils.valE(binding.etDescription));
         params.put("userid", Utils.getPrefData(USER_ID, mContext));
 
         apiInterface.apiContactUs(params).enqueue(new Callback<GeneralResponse>() {

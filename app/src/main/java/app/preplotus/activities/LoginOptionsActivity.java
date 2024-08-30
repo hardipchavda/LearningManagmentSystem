@@ -55,6 +55,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import app.preplotus.adapters.WelcomePagerAdapter;
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityLoginOptionsBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.model.LoginSignupResponse;
 import app.preplotus.model.LoginUserData;
@@ -81,10 +83,7 @@ import retrofit2.Response;
 
 public class LoginOptionsActivity extends AppCompatActivity {
 
-    @BindView(R.id.vPager)
-    ViewPager viewPager;
-    @BindView(R.id.tvReferralCode)
-    AppCompatTextView tvReferralCode;
+
 
     ArrayList<HashMap<String, String>> listItems;
     Handler hnd;
@@ -93,10 +92,10 @@ public class LoginOptionsActivity extends AppCompatActivity {
         @Override
         public void run() {
             int page = 0;
-            if (viewPager.getCurrentItem() != listItems.size() - 1) {
-                page = viewPager.getCurrentItem() + 1;
+            if (binding.vPager.getCurrentItem() != listItems.size() - 1) {
+                page = binding.vPager.getCurrentItem() + 1;
             }
-            viewPager.setCurrentItem(page);
+            binding.vPager.setCurrentItem(page);
             hnd.postDelayed(this, pagerSwipeTime);
         }
     };
@@ -110,10 +109,12 @@ public class LoginOptionsActivity extends AppCompatActivity {
     private Dialog dialogF;
     private String refercode = "";
 
+    private ActivityLoginOptionsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_options);
+        binding = ActivityLoginOptionsBinding.inflate(getLayoutInflater());
         ButterKnife.bind(this);
         init();
     }
@@ -144,7 +145,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
         listItems.add(map3);
 
         WelcomePagerAdapter adapter = new WelcomePagerAdapter(LoginOptionsActivity.this, listItems);
-        viewPager.setAdapter(adapter);
+        binding.vPager.setAdapter(adapter);
 
         hnd.postDelayed(rnb, pagerSwipeTime);
 
@@ -165,6 +166,55 @@ public class LoginOptionsActivity extends AppCompatActivity {
                 });
 
 //        getKey();
+
+        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLogin();
+            }
+        });
+
+        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSignUp();
+            }
+        });
+
+        binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleLogin();
+            }
+        });
+
+        binding.btnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                facebookLogin();
+            }
+        });
+
+        binding.tvReferralCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enterReferralCode();
+            }
+        });
+
+        binding.tvTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onTermsClick();
+            }
+        });
+
+        binding.tvPrivacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPrivacyClick();
+            }
+        });
 
     }
 
@@ -197,7 +247,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btnLogin)
+
     public void onLogin() {
 
 
@@ -211,7 +261,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.btnSignUp)
+
     public void onSignUp() {
 
         Intent in = new Intent(mContext, SignUpActivity.class);
@@ -222,7 +272,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.btnGoogle)
+
     public void googleLogin() {
 
 //        Intent in = new Intent(mContext,CategoryActivity.class);
@@ -240,7 +290,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    @OnClick(R.id.btnFacebook)
+
     public void facebookLogin() {
 
         isfacebook = true;
@@ -386,7 +436,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.tvReferralCode)
+
     public void enterReferralCode() {
         LinearLayout rl = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_refer_code, null);
 
@@ -451,7 +501,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
                         GeneralResponse callback = response.body();
                         Utils.showToast(mContext, callback.getMessage());
                         if (callback.getStatus().equals("success") && callback.getCode_status().equals("1")) {
-                            tvReferralCode.setText(refercode+" Applied");
+                            binding.tvReferralCode.setText(refercode+" Applied");
                         } else {
                             refercode = "";
                         }
@@ -476,7 +526,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.tvTerms)
+
     public void onTermsClick(){
         Intent intent = new Intent(mContext, ContentActivity.class);
         intent.putExtra("type","url");
@@ -485,7 +535,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.tvPrivacy)
+
     public void onPrivacyClick(){
         Intent intent = new Intent(mContext, ContentActivity.class);
         intent.putExtra("type","url");

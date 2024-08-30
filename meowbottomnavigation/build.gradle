@@ -8,11 +8,12 @@ def library_versionName = '1.2.0'
 
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
+    namespace = "com.etebarian.meowbottomnavigation"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -26,7 +27,6 @@ android {
         buildFeatures {
         }
     }
-    buildToolsVersion '30.0.3'
 
 }
 

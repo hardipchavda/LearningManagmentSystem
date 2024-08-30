@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import app.preplotus.adapters.TestsAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivityTestsBinding;
 import app.preplotus.model.TestsResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -38,14 +40,6 @@ import retrofit2.Response;
 
 public class TestsActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
-    @BindView(R.id.tvCount)
-    AppCompatTextView tvCount;
-    @BindView(R.id.tvDetails)
-    AppCompatTextView tvDetails;
 
     private Context mContext;
     private APIInterface apiInterface;
@@ -54,10 +48,13 @@ public class TestsActivity extends AppCompatActivity {
     private String id,type,title;
     private String from;
 
+    private ActivityTestsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tests);
+        binding = ActivityTestsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
@@ -74,12 +71,8 @@ public class TestsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.tvDetails)
+
     public void openDetails() {
         Intent intent = new Intent(mContext, ContentActivity.class);
         intent.putExtra("type","details");
@@ -100,17 +93,32 @@ public class TestsActivity extends AppCompatActivity {
         title = getIntent().getStringExtra("title");
         type = getIntent().getStringExtra("type");
 
-        tvTitle.setText(title);
+        binding.tvTitle.setText(title);
 
         if (type.equals("package")){
-            tvDetails.setVisibility(View.VISIBLE);
+            binding.tvDetails.setVisibility(View.VISIBLE);
         }
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        binding.rvNotes.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
 
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             fetchTests();
         }
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.tvDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDetails();
+            }
+        });
+
     }
 
     private String details = "";
@@ -139,9 +147,9 @@ public class TestsActivity extends AppCompatActivity {
                         TestsResponse callback = response.body();
                         details = callback.getDetails();
                         TestsAdapter adapter = new TestsAdapter(mContext,callback.getExamData());
-                        rvNotes.setAdapter(adapter);
+                        binding.rvNotes.setAdapter(adapter);
 
-                        tvCount.setText("Total Test= "+callback.getExamData().size());
+                        binding.tvCount.setText("Total Test= "+callback.getExamData().size());
 
                     }
                 } catch (Exception e) {

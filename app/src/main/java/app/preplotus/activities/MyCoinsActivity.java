@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import app.preplotus.R;
 import app.preplotus.adapters.MyCoinsAdapter;
+import app.preplotus.databinding.ActivityMyCoinsBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
 import app.preplotus.model.MyCoinsResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -32,27 +35,17 @@ import retrofit2.Response;
 
 public class MyCoinsActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvMyCoins)
-    RecyclerView rvMyCoins;
-
-    @BindView(R.id.tvCoinBalance)
-    AppCompatTextView tvCoinBalance;
-    @BindView(R.id.tvWorth)
-    AppCompatTextView tvWorth;
-    @BindView(R.id.tvEarnings)
-    AppCompatTextView tvEarnings;
-    @BindView(R.id.tvSpentCoins)
-    AppCompatTextView tvSpentCoins;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityMyCoinsBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_coins);
+        binding = ActivityMyCoinsBinding.inflate(getLayoutInflater());
         ButterKnife.bind(this);
         init();
     }
@@ -65,16 +58,19 @@ public class MyCoinsActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        rvMyCoins.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvMyCoins.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
         getMyCoins();
 
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void getMyCoins() {
 
@@ -97,18 +93,18 @@ public class MyCoinsActivity extends AppCompatActivity {
                         MyCoinsResponse callback = response.body();
                         if (callback.getStatus().equals("success")) {
                             try {
-                                tvCoinBalance.setText(callback.getCoinsBalance());
+                                binding.tvCoinBalance.setText(callback.getCoinsBalance());
                                 int cnt = Integer.parseInt(callback.getCoinsBalance()) + Integer.parseInt(callback.getUsedCoins());
-                                tvEarnings.setText(""+cnt);
-                                tvSpentCoins.setText(callback.getUsedCoins());
+                                binding.tvEarnings.setText(""+cnt);
+                                binding.tvSpentCoins.setText(callback.getUsedCoins());
                                 double ir = Double.parseDouble(callback.getCoinsBalance()) / Double.parseDouble(callback.getCoinsValue());
-                                tvWorth.setText("Worth ₹ "+((int)ir));
+                                binding.tvWorth.setText("Worth ₹ "+((int)ir));
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
                             if (callback.getCoinsHistory()!=null && callback.getCoinsHistory().size()>0) {
                                 MyCoinsAdapter adapter = new MyCoinsAdapter(mContext, callback.getCoinsHistory());
-                                rvMyCoins.setAdapter(adapter);
+                                binding.rvMyCoins.setAdapter(adapter);
                             }
                         }
                     }

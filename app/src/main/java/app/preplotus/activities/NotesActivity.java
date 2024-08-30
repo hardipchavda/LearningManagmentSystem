@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import app.preplotus.R;
 import app.preplotus.adapters.NotesAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.model.NotesResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -33,20 +35,19 @@ import retrofit2.Response;
 
 public class NotesActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
     private String from;
 
+    private ActivityNotesBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        binding = ActivityNotesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
@@ -63,10 +64,6 @@ public class NotesActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void init() {
 
@@ -76,13 +73,21 @@ public class NotesActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        tvTitle.setText(getResources().getString(R.string.notes));
+        binding.tvTitle.setText(getResources().getString(R.string.notes));
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        binding.rvNotes.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
 
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             fetchNotes();
         }
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void fetchNotes() {
@@ -107,7 +112,7 @@ public class NotesActivity extends AppCompatActivity {
                         NotesResponse callback = response.body();
 
                         NotesAdapter adapter = new NotesAdapter(mContext,callback.getData());
-                        rvNotes.setAdapter(adapter);
+                        binding.rvNotes.setAdapter(adapter);
 
                     }
                 } catch (Exception e) {

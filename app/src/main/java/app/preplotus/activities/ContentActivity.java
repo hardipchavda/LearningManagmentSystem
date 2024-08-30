@@ -40,6 +40,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
 import app.preplotus.utilities.Utils;
@@ -57,26 +59,13 @@ import retrofit2.Response;
 
 public class ContentActivity extends AppCompatActivity {
 
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
-    @BindView(R.id.tvContent)
-    AppCompatTextView tvContent;
-    @BindView(R.id.webView)
-    WebView webView;
 //    @BindView(R.id.btnPlay)
 //    FloatingActionButton btnPlay;
-    @BindView(R.id.exo_play)
     ImageButton exo_play;
-    @BindView(R.id.spinSpeed)
     AppCompatSpinner spinSpeed;
-    @BindView(R.id.exo_pause)
+
     ImageButton exo_pause;
-    @BindView(R.id.llProgress)
-    LinearLayout llProgress;
-    @BindView(R.id.rlMusic)
-    RelativeLayout rlMusic;
-    @BindView(R.id.controls)
-    PlayerControlView controls;
+
     private Context mContext;
     private String type,play_url,file_path,file_url;
 
@@ -84,12 +73,19 @@ public class ContentActivity extends AppCompatActivity {
     private ProgressDialog pd;
 
     private ExoPlayer player;
+    private LinearLayout llProgress;
+
+    private ActivityContentBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content);
+        binding = ActivityContentBinding.inflate(getLayoutInflater());
         ButterKnife.bind(this);
+        llProgress = findViewById(R.id.llProgress);
+        exo_pause = findViewById(R.id.exo_pause);
+        exo_play = findViewById(R.id.exoPlay);
+        spinSpeed = findViewById(R.id.spinSpeed);
         init();
     }
 
@@ -108,7 +104,7 @@ public class ContentActivity extends AppCompatActivity {
         if (play_url!=null){
 //            btnPlay.setVisibility(View.VISIBLE);
             Log.e("ttt","yes0");
-            rlMusic.setVisibility(View.VISIBLE);
+            binding.rlMusic.setVisibility(View.VISIBLE);
             Log.e("ttt","yes1");
             exo_play.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,61 +141,69 @@ public class ContentActivity extends AppCompatActivity {
         pd.setCancelable(false);
 
         if (type.equals("aboutus")) {
-            tvContent.setVisibility(View.VISIBLE);
-            tvTitle.setText(getResources().getString(R.string.about_us));
+            binding.tvContent.setVisibility(View.VISIBLE);
+            binding.tvTitle.setText(getResources().getString(R.string.about_us));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tvContent.setText(Html.fromHtml(Utils.getPrefData(ABOUT_US, mContext).replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
+                binding.tvContent.setText(Html.fromHtml(Utils.getPrefData(ABOUT_US, mContext).replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
             } else {
-                tvContent.setText(Html.fromHtml(Utils.getPrefData(ABOUT_US, mContext).replaceAll("\n", "<br>")));
+                binding.tvContent.setText(Html.fromHtml(Utils.getPrefData(ABOUT_US, mContext).replaceAll("\n", "<br>")));
             }
         } else if (type.equals("userguide")) {
-            tvContent.setVisibility(View.VISIBLE);
-            tvTitle.setText(getResources().getString(R.string.user_guide));
+            binding.tvContent.setVisibility(View.VISIBLE);
+            binding.tvTitle.setText(getResources().getString(R.string.user_guide));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tvContent.setText(Html.fromHtml(Utils.getPrefData(USER_GUIDE, mContext).replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
+                binding.tvContent.setText(Html.fromHtml(Utils.getPrefData(USER_GUIDE, mContext).replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
             } else {
-                tvContent.setText(Html.fromHtml(Utils.getPrefData(USER_GUIDE, mContext).replaceAll("\n", "<br>")));
+                binding.tvContent.setText(Html.fromHtml(Utils.getPrefData(USER_GUIDE, mContext).replaceAll("\n", "<br>")));
             }
         } else if (type.equals("details")) {
-            tvContent.setVisibility(View.VISIBLE);
-            tvTitle.setText(getIntent().getStringExtra("title"));
+            binding.tvContent.setVisibility(View.VISIBLE);
+            binding.tvTitle.setText(getIntent().getStringExtra("title"));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tvContent.setText(Html.fromHtml(getIntent().getStringExtra("content").replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
+                binding.tvContent.setText(Html.fromHtml(getIntent().getStringExtra("content").replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
             } else {
-                tvContent.setText(Html.fromHtml(getIntent().getStringExtra("content").replaceAll("\n", "<br>")));
+                binding.tvContent.setText(Html.fromHtml(getIntent().getStringExtra("content").replaceAll("\n", "<br>")));
             }
         } else if (type.equals("url")) {
-            webView.setVisibility(View.VISIBLE);
-            tvTitle.setText(getIntent().getStringExtra("title"));
+            binding.webView.setVisibility(View.VISIBLE);
+            binding.tvTitle.setText(getIntent().getStringExtra("title"));
 //            webView.setWebViewClient(new WebViewClient());
 //            webView.getSettings().setJavaScriptEnabled(true);
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-            webView.getSettings().setBuiltInZoomControls(false);
-            webView.getSettings().setLoadWithOverviewMode(false);
-            webView.getSettings().setLoadsImagesAutomatically(true);
+            binding.webView.getSettings().setJavaScriptEnabled(true);
+            binding.webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+            binding.webView.getSettings().setBuiltInZoomControls(false);
+            binding.webView.getSettings().setLoadWithOverviewMode(false);
+            binding.webView.getSettings().setLoadsImagesAutomatically(true);
 
-            webView.getSettings().setUseWideViewPort(false);
-            webView.setWebViewClient(new WebViewClient());
-            webView.loadUrl(getIntent().getStringExtra("content"));
+            binding.webView.getSettings().setUseWideViewPort(false);
+            binding.webView.setWebViewClient(new WebViewClient());
+            binding.webView.loadUrl(getIntent().getStringExtra("content"));
         } else {
-            webView.setVisibility(View.VISIBLE);
-            tvTitle.setText(getIntent().getStringExtra("title"));
+            binding.webView.setVisibility(View.VISIBLE);
+            binding.tvTitle.setText(getIntent().getStringExtra("title"));
 //            webView.setWebViewClient(new WebViewClient());
 //            webView.getSettings().setJavaScriptEnabled(true);
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-            webView.getSettings().setBuiltInZoomControls(false);
-            webView.getSettings().setLoadWithOverviewMode(false);
-            webView.getSettings().setLoadsImagesAutomatically(true);
+            binding.webView.getSettings().setJavaScriptEnabled(true);
+            binding.webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+            binding.webView.getSettings().setBuiltInZoomControls(false);
+            binding.webView.getSettings().setLoadWithOverviewMode(false);
+            binding.webView.getSettings().setLoadsImagesAutomatically(true);
 
-            webView.getSettings().setUseWideViewPort(false);
-            webView.setWebChromeClient(new WebChromeClient());
+            binding.webView.getSettings().setUseWideViewPort(false);
+            binding.webView.setWebChromeClient(new WebChromeClient());
             fetchContent();
         }
         disableCopyPaste();
-        tvContent.setMovementMethod(new ScrollingMovementMethod());
-        tvTitle.setSelected(true);
+        binding.tvContent.setMovementMethod(new ScrollingMovementMethod());
+        binding.tvTitle.setSelected(true);
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
 
@@ -233,7 +237,7 @@ public class ContentActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                controls.setPlayer(player);
+                binding.controls.setPlayer(player);
 
                 spinSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -269,10 +273,6 @@ public class ContentActivity extends AppCompatActivity {
         },100);
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void fetchContent() {
 
@@ -299,7 +299,7 @@ public class ContentActivity extends AppCompatActivity {
                         
                         String content = response.body().string();
 
-                        webView.loadDataWithBaseURL(null, content, null, "UTF-8", null);
+                        binding.webView.loadDataWithBaseURL(null, content, null, "UTF-8", null);
                         disableCopyPaste();
                     }
                 } catch (Exception e) {
@@ -321,22 +321,22 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     private void disableCopyPaste() {
-        webView.setOnLongClickListener(new View.OnLongClickListener() {
+        binding.webView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 return true;
             }
         });
-        webView.setLongClickable(false);
-        tvContent.setOnLongClickListener(new View.OnLongClickListener() {
+        binding.webView.setLongClickable(false);
+        binding.tvContent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 return true;
             }
         });
-        tvContent.setLongClickable(false);
-        tvContent.setHapticFeedbackEnabled(false);
-        webView.setHapticFeedbackEnabled(false);
+        binding.tvContent.setLongClickable(false);
+        binding.tvContent.setHapticFeedbackEnabled(false);
+        binding.webView.setHapticFeedbackEnabled(false);
     }
 
 }

@@ -5,6 +5,7 @@ import static app.preplotus.utilities.Constants.USER_ID;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.tabs.TabLayout;
 import app.preplotus.R;
 import app.preplotus.adapters.MyResultsAdapter;
+import app.preplotus.databinding.ActivityMyResultsBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
 import app.preplotus.model.MyResultData;
 import app.preplotus.model.MyResultsResponse;
 import app.preplotus.network.APIClient;
@@ -37,27 +40,24 @@ import retrofit2.Response;
 
 public class MyResultsActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvMyResults)
-    RecyclerView rvMyResults;
-
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityMyResultsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_results);
+        binding = ActivityMyResultsBinding.inflate(getLayoutInflater());
         ButterKnife.bind(this);
         init();
     }
 
     private void init() {
 
-        rvMyResults.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
+        binding.rvMyResults.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
 
         mContext = MyResultsActivity.this;
         apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -65,12 +65,12 @@ public class MyResultsActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Tests"));
-        tabLayout.addTab(tabLayout.newTab().setText("Practice Tests"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Tests"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Practice Tests"));
 
         fetchResults("test");
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getText().toString().equals("Tests")){
@@ -88,6 +88,13 @@ public class MyResultsActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -138,7 +145,7 @@ public class MyResultsActivity extends AppCompatActivity {
                         });
 
                         MyResultsAdapter adapter = new MyResultsAdapter(mContext,list ,type);
-                        rvMyResults.setAdapter(adapter);
+                        binding.rvMyResults.setAdapter(adapter);
 
                     }
                 } catch (Exception e) {
@@ -155,9 +162,5 @@ public class MyResultsActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
 }

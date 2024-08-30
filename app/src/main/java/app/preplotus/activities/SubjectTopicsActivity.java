@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import app.preplotus.R;
 import app.preplotus.adapters.SubjectTopicsAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivitySubjectNotesBinding;
 import app.preplotus.model.SubjectTopicData;
 import app.preplotus.model.SubjectTopicsResponse;
 import app.preplotus.network.APIClient;
@@ -34,12 +37,7 @@ import retrofit2.Response;
 
 public class SubjectTopicsActivity extends AppCompatActivity {
 
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
-    @BindView(R.id.tvCount)
-    AppCompatTextView tvCount;
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
+
     private String id, title;
     private Context mContext;
     private APIInterface apiInterface;
@@ -47,10 +45,13 @@ public class SubjectTopicsActivity extends AppCompatActivity {
 
     private String from;
 
+    private ActivitySubjectNotesBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subject_notes);
+        binding = ActivitySubjectNotesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
@@ -68,10 +69,6 @@ public class SubjectTopicsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void init() {
 
@@ -81,16 +78,23 @@ public class SubjectTopicsActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvNotes.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
         id = getIntent().getStringExtra("id");
         title = getIntent().getStringExtra("title");
 
-        tvTitle.setText(title);
+        binding.tvTitle.setText(title);
 
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             fetchTopics();
         }
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -118,9 +122,9 @@ public class SubjectTopicsActivity extends AppCompatActivity {
                         ArrayList<SubjectTopicData> list = callback.getData();
                         if (list!=null){
                             String str = "Total Topics = "+ list.size();
-                            tvCount.setText(str);
+                            binding.tvCount.setText(str);
                             SubjectTopicsAdapter adapter = new SubjectTopicsAdapter(mContext, list);
-                            rvNotes.setAdapter(adapter);
+                            binding.rvNotes.setAdapter(adapter);
                         }
 
                     }

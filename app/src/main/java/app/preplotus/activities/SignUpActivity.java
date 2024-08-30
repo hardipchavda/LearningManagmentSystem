@@ -11,12 +11,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivitySignupBinding;
 import app.preplotus.model.LoginSignupResponse;
 import app.preplotus.model.LoginUserData;
 import app.preplotus.network.APIClient;
@@ -35,24 +38,18 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    @BindView(R.id.etName)
-    AppCompatEditText etName;
-    @BindView(R.id.etEmail)
-    AppCompatEditText etEmail;
-    @BindView(R.id.etPassword)
-    AppCompatEditText etPassword;
-    @BindView(R.id.etPhoneNumber)
-    AppCompatEditText etPhoneNumber;
-
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
     private String refercode = "";
 
+    private ActivitySignupBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        binding = ActivitySignupBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -64,26 +61,37 @@ public class SignUpActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
         refercode = getIntent().getStringExtra("refercode");
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSignup();
+            }
+        });
+
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.btnSignup)
+
     public void onSignup() {
         if (Utils.isNetworkAvailableShowToast(mContext)) {
 
-            if (Utils.isNullE(etName)) {
+            if (Utils.isNullE(binding.etName)) {
                 Utils.showToast(mContext, getResources().getString(R.string.name_msg));
-            } else if (Utils.isNullE(etEmail)) {
+            } else if (Utils.isNullE(binding.etEmail)) {
                 Utils.showToast(mContext, getResources().getString(R.string.email_msg));
-            } else if (!Utils.isValidEmail(Utils.valE(etEmail))) {
+            } else if (!Utils.isValidEmail(Utils.valE(binding.etEmail))) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_email_msg));
-            } else if ((Utils.valE(etPhoneNumber)).trim().length() < 10) {
+            } else if ((Utils.valE(binding.etPhoneNumber)).trim().length() < 10) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_phone_msg));
-            } else if ((Utils.valE(etPassword)).trim().length() < 6) {
+            } else if ((Utils.valE(binding.etPassword)).trim().length() < 6) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_password_msg));
             } else {
                 callSignupApi();
@@ -97,10 +105,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
         Map<String, String> params = new HashMap<>();
 
-        params.put("name", Utils.valE(etName));
-        params.put("email", Utils.valE(etEmail));
-        params.put("phone", Utils.valE(etPhoneNumber));
-        params.put("password", Utils.valE(etPassword));
+        params.put("name", Utils.valE(binding.etName));
+        params.put("email", Utils.valE(binding.etEmail));
+        params.put("phone", Utils.valE(binding.etPhoneNumber));
+        params.put("password", Utils.valE(binding.etPassword));
 //        params.put("deviceid", Utils.getPrefData(FCM_TOKEN, mContext));
         if (Utils.getPrefData(FCM_TOKEN, mContext) != null && Utils.getPrefData(FCM_TOKEN, mContext).trim().length() > 0) {
             params.put("deviceid", Utils.getPrefData(FCM_TOKEN, mContext));

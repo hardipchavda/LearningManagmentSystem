@@ -47,22 +47,22 @@
         android:layout_marginTop="5dp"
         android:letterSpacing="0.0625"/>
 
-    <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:loader_animDur="300"
-        app:loader_noOfDots="6"
-        app:loader_circleRadius="6dp"
-        app:loader_defaultColor="#EFD3D3"
-        app:loader_selectedColor="@color/black"
-        app:loader_dotsDist="3dp"
-        app:loader_expandOnSelect="false"
-        app:loader_isSingleDir="false"
-        app:loader_selectedRadius="10dp"
-        app:loader_showRunningShadow="true" />
+<!--    <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginBottom="30dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:loader_animDur="300"-->
+<!--        app:loader_noOfDots="6"-->
+<!--        app:loader_circleRadius="6dp"-->
+<!--        app:loader_defaultColor="#EFD3D3"-->
+<!--        app:loader_selectedColor="@color/black"-->
+<!--        app:loader_dotsDist="3dp"-->
+<!--        app:loader_expandOnSelect="false"-->
+<!--        app:loader_isSingleDir="false"-->
+<!--        app:loader_selectedRadius="10dp"-->
+<!--        app:loader_showRunningShadow="true" />-->
 
 
 </RelativeLayout>

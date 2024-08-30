@@ -22,6 +22,8 @@ import app.preplotus.R;
 
 import app.preplotus.activities.SuperGroupsActivity;
 import app.preplotus.adapters.MyExamsAdapter;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.BtmshtCategoryBinding;
 import app.preplotus.model.CategoryData;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.model.MyExamPreferencesResponse;
@@ -41,12 +43,6 @@ import retrofit2.Response;
 
 public class CategoryDialog extends BottomSheetDialogFragment {
 
-    @BindView(R.id.rvList)
-    RecyclerView rvList;
-    @BindView(R.id.pdd)
-    ProgressBar pdd;
-    @BindView(R.id.tvEdit)
-    AppCompatTextView tvEdit;
     ArrayList<String> superGroupTopics;
     private Context mContext;
     private APIInterface apiInterface;
@@ -58,22 +54,40 @@ public class CategoryDialog extends BottomSheetDialogFragment {
         mContext = contex;
     }
 
+    private BtmshtCategoryBinding binding;
+
     @Override
     public void setupDialog(@NonNull Dialog dialog, int style) {
-        View contentView = View.inflate(getContext(), R.layout.btmsht_category, null);
-        ButterKnife.bind(this, contentView);
+        binding = BtmshtCategoryBinding.inflate(getLayoutInflater());
+//        View contentView = View.inflate(getContext(), R.layout.btmsht_category, null);
+//        ButterKnife.bind(this, contentView);
         init();
-        dialog.setContentView(contentView);
+        dialog.setContentView(binding.getRoot());
     }
 
     private void init() {
-        rvList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rvList.setHasFixedSize(true);
+        binding.rvList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvList.setHasFixedSize(true);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         pd = new ProgressDialog(getContext(), ProgressDialog.STYLE_SPINNER);
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
         getPreferences();
+
+        binding.tvAddExam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddExam();
+            }
+        });
+
+        binding.tvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onEdit();
+            }
+        });
+
     }
 
     private void getPreferences() {
@@ -91,15 +105,15 @@ public class CategoryDialog extends BottomSheetDialogFragment {
 //                if (pd.isShowing()) {
 //                    pd.cancel();
 //                }
-                rvList.setVisibility(View.VISIBLE);
-                pdd.setVisibility(View.GONE);
+                binding.rvList.setVisibility(View.VISIBLE);
+                binding.pdd.setVisibility(View.GONE);
                 try {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body() != null) {
                         MyExamPreferencesResponse callback = response.body();
                         list = callback.getData();
                         superGroupTopics = new ArrayList<>();
                         MyExamsAdapter adapter = new MyExamsAdapter(mContext, list, false, CategoryDialog.this);
-                        rvList.setAdapter(adapter);
+                        binding.rvList.setAdapter(adapter);
 
                         for (int i = 0; i < list.size(); i++) {
                             CategoryData data = list.get(i);
@@ -117,29 +131,29 @@ public class CategoryDialog extends BottomSheetDialogFragment {
 //                if (pd.isShowing()) {
 //                    pd.cancel();
 //                }
-                pdd.setVisibility(View.GONE);
+                binding.pdd.setVisibility(View.GONE);
             }
         });
     }
 
-    @OnClick(R.id.tvAddExam)
+
     public void onAddExam() {
         Intent intent = new Intent(mContext, SuperGroupsActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.tvEdit)
+
     public void onEdit() {
         if (isEdit) {
-            tvEdit.setText(getResources().getString(R.string.edit));
+            binding.tvEdit.setText(getResources().getString(R.string.edit));
             isEdit = false;
             MyExamsAdapter adapter = new MyExamsAdapter(mContext, list, false, CategoryDialog.this);
-            rvList.setAdapter(adapter);
+            binding.rvList.setAdapter(adapter);
         } else {
-            tvEdit.setText(getResources().getString(R.string.back));
+            binding.tvEdit.setText(getResources().getString(R.string.back));
             isEdit = true;
             MyExamsAdapter adapter = new MyExamsAdapter(mContext, list, true, CategoryDialog.this);
-            rvList.setAdapter(adapter);
+            binding.rvList.setAdapter(adapter);
         }
     }
 
@@ -168,7 +182,7 @@ public class CategoryDialog extends BottomSheetDialogFragment {
                         superGroupTopics.remove(pos);
 
                         MyExamsAdapter adapter = new MyExamsAdapter(mContext, list, isEdit, CategoryDialog.this);
-                        rvList.setAdapter(adapter);
+                        binding.rvList.setAdapter(adapter);
 
                         FirebaseMessaging.getInstance().unsubscribeFromTopic(data.getFirebase_topic_name());
                         Utils.removeTopic(mContext,data.getFirebase_topic_name());

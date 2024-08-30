@@ -35,6 +35,7 @@ package app.preplotus.activities;
         import org.json.JSONObject;
 
         import app.preplotus.R;
+        import app.preplotus.databinding.ActivityCcavenueBinding;
         import app.preplotus.network.APIClient;
         import app.preplotus.network.APIInterface;
         import app.preplotus.utilities.Utils;
@@ -57,11 +58,13 @@ public class CCAvenueActivity extends AppCompatActivity {
     String encVal;
     String vResponse;
 
+    private ActivityCcavenueBinding binding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ccavenue);
+        binding = ActivityCcavenueBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
 
@@ -77,10 +80,16 @@ public class CCAvenueActivity extends AppCompatActivity {
 
        render_page();
 
+        binding.iconSubscriptionBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onTermsClick();
+            }
+        });
 
     }
 
-    @OnClick(R.id.iconSubscriptionBack)
+
     public void onTermsClick(){
         Intent intent = new Intent(mContext, SubscriptionActivity.class);
         startActivity(intent);

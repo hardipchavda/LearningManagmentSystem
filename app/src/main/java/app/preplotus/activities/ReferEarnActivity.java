@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ShareCompat;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivityReferEarnBinding;
 import app.preplotus.utilities.Utils;
 
 import butterknife.BindView;
@@ -22,16 +25,16 @@ import butterknife.OnClick;
 
 public class ReferEarnActivity extends AppCompatActivity {
 
-    @BindView(R.id.tvCode)
-    AppCompatTextView tvCode;
     private Context mContext;
     private String shareText = "";
 
+    private ActivityReferEarnBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_refer_earn);
+        binding = ActivityReferEarnBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -39,26 +42,65 @@ public class ReferEarnActivity extends AppCompatActivity {
     private void init() {
 
         mContext = ReferEarnActivity.this;
-        tvCode.setText(Utils.getPrefData(REFERRAL_CODE, mContext));
+        binding.tvCode.setText(Utils.getPrefData(REFERRAL_CODE, mContext));
         String str = getPackageName();
-        shareText = "Hey there i am using Preplotus for easy learning\n\nCode: "+Utils.getPrefData(REFERRAL_CODE, mContext) + "\n\nUse my code to get 300 coins.\n\nDownload App from below link:\nhttps://play.google.com/store/apps/details?id=" +str+"&referrer=" + tvCode.getText().toString();
+        shareText = "Hey there i am using Preplotus for easy learning\n\nCode: "+Utils.getPrefData(REFERRAL_CODE, mContext) + "\n\nUse my code to get 300 coins.\n\nDownload App from below link:\nhttps://play.google.com/store/apps/details?id=" +str+"&referrer=" + binding.tvCode.getText().toString();
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.tvCopyCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCopyCode();
+            }
+        });
+
+        binding.imgWhatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onWhatsApp();
+            }
+        });
+
+        binding.tvFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFacebook();
+            }
+        });
+
+        binding.tvTelegram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onTelegram();
+            }
+        });
+
+        binding.tvOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOther();
+            }
+        });
+
     }
 
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.tvCopyCode)
+
     public void onCopyCode() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("label", tvCode.getText().toString());
+        ClipData clip = ClipData.newPlainText("label", binding.tvCode.getText().toString());
         clipboard.setPrimaryClip(clip);
         Utils.showToast(mContext, "Code copied!");
     }
 
-    @OnClick(R.id.imgWhatsApp)
+
     public void onWhatsApp() {
         Intent i = ShareCompat.IntentBuilder.from(this)
                 .setText(shareText)
@@ -73,7 +115,7 @@ public class ReferEarnActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.tvFacebook)
+
     public void onFacebook() {
         Intent i = ShareCompat.IntentBuilder.from(this)
                 .setText(shareText)
@@ -88,7 +130,7 @@ public class ReferEarnActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.tvTelegram)
+
     public void onTelegram() {
         Intent i = ShareCompat.IntentBuilder.from(this)
                 .setText(shareText)
@@ -103,7 +145,7 @@ public class ReferEarnActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.tvOther)
+
     public void onOther() {
         ShareCompat.IntentBuilder.from(this)
                 .setText(shareText)

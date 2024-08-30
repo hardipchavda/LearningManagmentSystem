@@ -21,8 +21,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+
 import app.preplotus.R;
 import app.preplotus.adapters.CategoryAdapter;
+import app.preplotus.databinding.ActivityCategoryBinding;
 import app.preplotus.model.CategoryData;
 import app.preplotus.model.CategoryDataResponse;
 import app.preplotus.model.GeneralResponse;
@@ -43,10 +45,7 @@ import retrofit2.Response;
 
 public class CategoryActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvCategories)
-    RecyclerView rvCategories;
-    @BindView(R.id.btnProceed)
-    AppCompatButton btnProceed;
+
 
     private Context mContext;
     private APIInterface apiInterface;
@@ -55,10 +54,13 @@ public class CategoryActivity extends AppCompatActivity {
     private boolean isEnabled = false;
     private String catName, catId, topicName, catTopic;
 
+    private ActivityCategoryBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+        binding = ActivityCategoryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -72,18 +74,27 @@ public class CategoryActivity extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
         topicName = getIntent().getStringExtra("topicName");
         GridLayoutManager manager = new GridLayoutManager(mContext, 2);
-        rvCategories.setLayoutManager(manager);
+        binding.rvCategories.setLayoutManager(manager);
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             getCategories();
         }
 
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.btnProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onProceed();
+            }
+        });
 
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void getCategories() {
         if (!pd.isShowing()) {
@@ -115,13 +126,13 @@ public class CategoryActivity extends AppCompatActivity {
 //                                }
 //                            }
                             CategoryAdapter adapter = new CategoryAdapter(mContext, list, ppp);
-                            rvCategories.setAdapter(adapter);
+                            binding.rvCategories.setAdapter(adapter);
 //                            if (ppp!=-1){
 //                                isEnabled = true;
 //                                btnProceed.setAlpha((float) 1.0);
 //                            }
-                            btnProceed.setVisibility(View.VISIBLE);
-                            btnProceed.setAlpha((float) 0.3);
+                            binding.btnProceed.setVisibility(View.VISIBLE);
+                            binding.btnProceed.setAlpha((float) 0.3);
                         }
                     }
                 } catch (Exception e) {
@@ -143,10 +154,10 @@ public class CategoryActivity extends AppCompatActivity {
         this.catId = catId;
         this.catTopic = topicName;
         isEnabled = true;
-        btnProceed.setAlpha((float) 1.0);
+        binding.btnProceed.setAlpha((float) 1.0);
     }
 
-    @OnClick(R.id.btnProceed)
+
     public void onProceed() {
         if (isEnabled) {
 

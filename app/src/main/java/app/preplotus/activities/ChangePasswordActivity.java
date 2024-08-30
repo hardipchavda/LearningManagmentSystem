@@ -5,12 +5,14 @@ import static app.preplotus.utilities.Constants.USER_ID;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityChangePasswordBinding;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -28,21 +30,18 @@ import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    @BindView(R.id.etOldPassword)
-    AppCompatEditText etOldPassword;
-    @BindView(R.id.etPassword)
-    AppCompatEditText etPassword;
-    @BindView(R.id.etConfirmPassword)
-    AppCompatEditText etConfirmPassword;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityChangePasswordBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_password);
+        binding = ActivityChangePasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -55,22 +54,32 @@ public class ChangePasswordActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSubmit();
+            }
+        });
+
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.btnSubmit)
+
     public void onSubmit() {
         if (Utils.isNetworkAvailableShowToast(mContext)) {
 
-            if (Utils.isNullE(etOldPassword)) {
+            if (Utils.isNullE(binding.etOldPassword)) {
                 Utils.showToast(mContext, getResources().getString(R.string.old_password_msg));
-            } else if ((Utils.valE(etPassword)).trim().length() < 6) {
+            } else if ((Utils.valE(binding.etPassword)).trim().length() < 6) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_password_msg));
-            } else if (!Utils.valE(etPassword).equals(Utils.valE(etConfirmPassword))) {
+            } else if (!Utils.valE(binding.etPassword).equals(Utils.valE(binding.etConfirmPassword))) {
                 Utils.showToast(mContext, getResources().getString(R.string.password_match_msg));
             } else {
                 callChangePasswordApi();
@@ -88,8 +97,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
 
         params.put("userid", Utils.getPrefData(USER_ID,mContext));
-        params.put("old_password", Utils.valE(etOldPassword));
-        params.put("new_password", Utils.valE(etPassword));
+        params.put("old_password", Utils.valE(binding.etOldPassword));
+        params.put("new_password", Utils.valE(binding.etPassword));
 
         apiInterface.apiChangePassword(params).enqueue(new Callback<GeneralResponse>() {
             @Override

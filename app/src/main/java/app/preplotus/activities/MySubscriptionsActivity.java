@@ -5,6 +5,7 @@ import static app.preplotus.utilities.Constants.USER_ID;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import app.preplotus.R;
 import app.preplotus.adapters.MySubscriptionsAdapter;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.model.SubscriptionResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -30,24 +33,21 @@ import retrofit2.Response;
 
 public class MySubscriptionsActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityMySubscriptionBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_subscription);
+        binding = ActivityMySubscriptionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void init() {
         mContext = MySubscriptionsActivity.this;
@@ -56,9 +56,16 @@ public class MySubscriptionsActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        binding.rvNotes.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
 
         fetchSubscriptions();
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -85,7 +92,7 @@ public class MySubscriptionsActivity extends AppCompatActivity {
                         SubscriptionResponse callback = response.body();
 
                         MySubscriptionsAdapter adapter = new MySubscriptionsAdapter(mContext, callback.getData());
-                        rvNotes.setAdapter(adapter);
+                        binding.rvNotes.setAdapter(adapter);
 
                     }
                 } catch (Exception e) {

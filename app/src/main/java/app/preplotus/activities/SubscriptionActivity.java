@@ -28,6 +28,8 @@ import com.google.gson.reflect.TypeToken;
 import app.preplotus.R;
 import app.preplotus.adapters.CouponsAdapter;
 import app.preplotus.adapters.SubscriptionAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivitySubscriptionBinding;
 import app.preplotus.model.CouponsData;
 import app.preplotus.model.PlanData;
 import app.preplotus.network.APIClient;
@@ -63,22 +65,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
 
     public int planPrice = 0;
     public int finalPrice = 0;
-    @BindView(R.id.rvPlans)
-    RecyclerView rvPlans;
-    @BindView(R.id.rvCoupons)
-    RecyclerView rvCoupons;
-    @BindView(R.id.llGroups)
-    LinearLayout llGroups;
-    @BindView(R.id.llApplidCoupon)
-    LinearLayout llApplidCoupon;
-    @BindView(R.id.tvAppliedCode)
-    AppCompatTextView tvAppliedCode;
-    @BindView(R.id.tvFinalPrice)
-    AppCompatTextView tvFinalPrice;
-    @BindView(R.id.etCouponCode)
-    AppCompatEditText etCouponCode;
-    @BindView(R.id.llApplyCoupon)
-    LinearLayout llApplyCoupon;
+
     private String planName = "", couponCode = "", couponValue = "", userCoins = "", planId = "", validityId = "";
     private Context mContext;
     private APIInterface apiInterface;
@@ -88,10 +75,13 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
 
     private String from;
 
+    private ActivitySubscriptionBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subscription);
+        binding = ActivitySubscriptionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
@@ -109,12 +99,8 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
         }
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.tvContactUs)
+
     public void onContactUs() {
         Intent in = new Intent(mContext, ContactUsActivity.class);
         startActivity(in);
@@ -128,12 +114,47 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        rvPlans.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rvPlans.setNestedScrollingEnabled(false);
-        rvCoupons.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rvCoupons.setNestedScrollingEnabled(false);
+        binding.rvPlans.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvPlans.setNestedScrollingEnabled(false);
+        binding.rvCoupons.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvCoupons.setNestedScrollingEnabled(false);
         Checkout.preload(getApplicationContext());
         fetchPlans();
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.tvContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onContactUs();
+            }
+        });
+
+        binding.tvRemoveCoupons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRemoveCoupon();
+            }
+        });
+
+        binding.tvApplyCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onApplyCoupon();
+            }
+        });
+
+        binding.cvProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onProceed();
+            }
+        });
 
     }
 
@@ -171,7 +192,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                         ArrayList<PlanData> list = gson.fromJson(validity.toString(), listType);
                         changePrice(list.get(0));
                         SubscriptionAdapter adapter = new SubscriptionAdapter(mContext, list);
-                        rvPlans.setAdapter(adapter);
+                        binding.rvPlans.setAdapter(adapter);
 
                         Gson gsontwo = new Gson();
                         Type cType = new TypeToken<ArrayList<CouponsData>>() {
@@ -179,7 +200,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                         ArrayList<CouponsData> listC = gsontwo.fromJson(coupons.toString(), cType);
 
                         CouponsAdapter adapterC = new CouponsAdapter(mContext, listC);
-                        rvCoupons.setAdapter(adapterC);
+                        binding.rvCoupons.setAdapter(adapterC);
 
 
                         try {
@@ -191,7 +212,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
                                 LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(R.layout.row_benifit_includes, null);
                                 AppCompatTextView tvNameGroup = ll.findViewById(R.id.tvNameGroup);
                                 tvNameGroup.setText(str);
-                                llGroups.addView(ll);
+                                binding.llGroups.addView(ll);
                             }
 
                         } catch (Exception e) {
@@ -223,10 +244,10 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
             } else {
                 finalPrice = planPrice - Integer.parseInt(data.getCoupon_code_value());
             }
-            llApplidCoupon.setVisibility(View.VISIBLE);
-            llApplyCoupon.setVisibility(View.GONE);
-            tvAppliedCode.setText("Applied Coupon - " + data.getCoupon_code());
-            tvFinalPrice.setText("₹ " + finalPrice);
+            binding.llApplidCoupon.setVisibility(View.VISIBLE);
+            binding.llApplyCoupon.setVisibility(View.GONE);
+            binding.tvAppliedCode.setText("Applied Coupon - " + data.getCoupon_code());
+            binding.tvFinalPrice.setText("₹ " + finalPrice);
             couponCode = data.getCoupon_code();
             couponValue = "" + (planPrice - finalPrice);
         } else {
@@ -235,21 +256,21 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
 
     }
 
-    @OnClick(R.id.tvRemoveCoupons)
+
     public void onRemoveCoupon() {
-        llApplidCoupon.setVisibility(View.GONE);
-        llApplyCoupon.setVisibility(View.VISIBLE);
-        tvFinalPrice.setText("₹ " + planPrice);
+        binding.llApplidCoupon.setVisibility(View.GONE);
+        binding.llApplyCoupon.setVisibility(View.VISIBLE);
+        binding.tvFinalPrice.setText("₹ " + planPrice);
         finalPrice = planPrice;
-        etCouponCode.setText("");
+        binding.etCouponCode.setText("");
         couponCode = "";
         couponValue = "";
     }
 
-    @OnClick(R.id.tvApplyCoupon)
+
     public void onApplyCoupon() {
-        if (!Utils.isNullE(etCouponCode)) {
-            checkCoupon(Utils.valE(etCouponCode));
+        if (!Utils.isNullE(binding.etCouponCode)) {
+            checkCoupon(Utils.valE(binding.etCouponCode));
         }
     }
 
@@ -259,11 +280,11 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
         validityId = data.getValidity_id();
         couponCode = "";
         couponValue = "";
-        llApplidCoupon.setVisibility(View.GONE);
-        llApplyCoupon.setVisibility(View.VISIBLE);
-        tvFinalPrice.setText("₹ " + planPrice);
+        binding.llApplidCoupon.setVisibility(View.GONE);
+        binding.llApplyCoupon.setVisibility(View.VISIBLE);
+        binding.tvFinalPrice.setText("₹ " + planPrice);
         finalPrice = planPrice;
-        etCouponCode.setText("");
+        binding.etCouponCode.setText("");
     }
 
     public void checkCoupon(final String coupon) {
@@ -316,7 +337,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
 
     }
 
-    @OnClick(R.id.cvProceed)
+
     public void onProceed() {
         if (!Utils.getPrefData(SUBSCRIBED,mContext).equals("yes")) {
             PaymentDialog paymentDialog = new PaymentDialog(mContext, planName, "" + planPrice, couponCode, couponValue, "" + finalPrice, userCoins, planId, validityId);

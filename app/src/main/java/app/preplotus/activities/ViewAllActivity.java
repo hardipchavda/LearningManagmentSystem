@@ -6,6 +6,7 @@ import static app.preplotus.utilities.Constants.USER_ID;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import app.preplotus.adapters.ViewAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.model.PackagesResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -33,27 +35,30 @@ import retrofit2.Response;
 
 public class ViewAllActivity extends AppCompatActivity {
 
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityNotesBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        binding = ActivityNotesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     private void init() {
 
@@ -63,9 +68,9 @@ public class ViewAllActivity extends AppCompatActivity {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        tvTitle.setText(getResources().getString(R.string.mock_test));
-        tvTitle.setSelected(true);
-        rvNotes.setLayoutManager(new GridLayoutManager(mContext, 2));
+        binding.tvTitle.setText(getResources().getString(R.string.mock_test));
+        binding.tvTitle.setSelected(true);
+        binding.rvNotes.setLayoutManager(new GridLayoutManager(mContext, 2));
 
         if (Utils.isNetworkAvailableShowToast(mContext)) {
             fetchAllPackages();
@@ -94,7 +99,7 @@ public class ViewAllActivity extends AppCompatActivity {
                         PackagesResponse callback = response.body();
 
                         ViewAdapter adapter = new ViewAdapter(mContext, callback.getData());
-                        rvNotes.setAdapter(adapter);
+                        binding.rvNotes.setAdapter(adapter);
 
                     }
                 } catch (Exception e) {

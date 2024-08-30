@@ -6,11 +6,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import app.preplotus.adapters.ResultAdapter;
 import app.preplotus.R;
 
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivityResultScreenBinding;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,13 +24,15 @@ public class ResultsActivity extends AppCompatActivity {
     ResultAdapter adapter;
     ViewPager viewPager;
     TabLayout tabLayout;
-    @BindView(R.id.tvTitle)
-    AppCompatTextView tvTitle;
+
+
+    private ActivityResultScreenBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_screen);
+        binding = ActivityResultScreenBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
         viewPager = findViewById(R.id.viewpager);
@@ -37,10 +42,6 @@ public class ResultsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
     @Override
     public void onBackPressed() {
@@ -60,7 +61,15 @@ public class ResultsActivity extends AppCompatActivity {
         title = getIntent().getStringExtra("title");
         type = getIntent().getStringExtra("type");
         result_id = getIntent().getStringExtra("id");
-        tvTitle.setText(title);
+        binding. tvTitle.setText(title);
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     public String getTestid() {

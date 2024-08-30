@@ -12,9 +12,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
 import android.widget.CheckBox;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityInstructionsBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
 import app.preplotus.utilities.Utils;
@@ -34,14 +37,6 @@ import retrofit2.Response;
 
 public class InstructionActivity extends AppCompatActivity {
 
-    @BindView(R.id.tvInstructions)
-    AppCompatTextView tvInstructions;
-    @BindView(R.id.tvCompleted)
-    AppCompatTextView tvCompleted;
-    @BindView(R.id.btnStart)
-    AppCompatButton btnStart;
-    @BindView(R.id.checkReady)
-    CheckBox checkReady;
 
     private Context mContext;
     private APIInterface apiInterface;
@@ -49,10 +44,13 @@ public class InstructionActivity extends AppCompatActivity {
 
     private String testid,title,marks,time,type;
 
+
+    private ActivityInstructionsBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_instructions);
+        binding = ActivityInstructionsBinding.inflate(getLayoutInflater());
         ButterKnife.bind(this);
 
         init();
@@ -71,6 +69,14 @@ public class InstructionActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         title = getIntent().getStringExtra("title");
         fetchInstructions();
+
+        binding.btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onStartTest();
+            }
+        });
+
     }
 
     private void fetchInstructions() {
@@ -101,9 +107,9 @@ public class InstructionActivity extends AppCompatActivity {
                         String allowed = jo.optString("IsallowdToattempt");
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            tvInstructions.setText(Html.fromHtml(content.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
+                            binding.tvInstructions.setText(Html.fromHtml(content.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
                         } else {
-                            tvInstructions.setText(Html.fromHtml(content.replaceAll("\n", "<br>")));
+                            binding.tvInstructions.setText(Html.fromHtml(content.replaceAll("\n", "<br>")));
                         }
 
 //                        if (allowed.equals("False")) {
@@ -128,9 +134,9 @@ public class InstructionActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.btnStart)
+
     public void onStartTest(){
-        if (checkReady.isChecked()){
+        if (binding.checkReady.isChecked()){
             Intent in = new Intent(mContext,QuestionActivity.class);
             in.putExtra("testid",testid);
             in.putExtra("title",title);

@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
+
 /**
  * Created by 1HE on 2020-02-02.
  */

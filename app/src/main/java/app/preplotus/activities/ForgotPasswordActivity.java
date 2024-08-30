@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityForgotPasswordBinding;
 import app.preplotus.model.ForgotPasswordResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -27,16 +29,17 @@ import retrofit2.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    @BindView(R.id.etEmail)
-    AppCompatEditText etEmail;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivityForgotPasswordBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+        binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -47,19 +50,30 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         pd = new ProgressDialog(mContext,ProgressDialog.STYLE_SPINNER);
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    onBackPressed();
+            }
+        });
+
+        binding.btnProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                     onProceed();
+            }
+        });
+
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.btnProceed)
+
     public void onProceed() {
         if (Utils.isNetworkAvailableShowToast(mContext)) {
-            if (Utils.isNullE(etEmail)) {
+            if (Utils.isNullE(binding.etEmail)) {
                 Utils.showToast(mContext, getResources().getString(R.string.email_msg));
-            } else if (!Utils.isValidEmail(Utils.valE(etEmail))) {
+            } else if (!Utils.isValidEmail(Utils.valE(binding.etEmail))) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_email_msg));
             } else {
                 callForgotPasswordAPI();
@@ -74,7 +88,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
         Map<String, String> params = new HashMap<>();
 
-        params.put("email", Utils.valE(etEmail));
+        params.put("email", Utils.valE(binding.etEmail));
 
         apiInterface.apiForgortPassword(params).enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
@@ -90,7 +104,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             Intent in = new Intent(ForgotPasswordActivity.this, ResetPasswordActivity.class);
                             in.putExtra("otp", callback.getCode());
                             in.putExtra("userid", callback.getUserId());
-                            in.putExtra("email", Utils.valE(etEmail));
+                            in.putExtra("email", Utils.valE(binding.etEmail));
                             startActivity(in);
                         }
                     }

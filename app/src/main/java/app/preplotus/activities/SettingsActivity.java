@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivitySettingsBinding;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -31,16 +34,17 @@ import retrofit2.Response;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    @BindView(R.id.switchNotification)
-    SwitchCompat switchNotification;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private ActivitySettingsBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         init();
     }
@@ -54,12 +58,12 @@ public class SettingsActivity extends AppCompatActivity {
         pd.setCancelable(false);
 
         if (Utils.getPrefData(NOTI_FLAG, mContext).trim().length() == 0 || Utils.getPrefData(NOTI_FLAG, mContext).equals("1")) {
-            switchNotification.setChecked(true);
+            binding.switchNotification.setChecked(true);
         } else {
-            switchNotification.setChecked(false);
+            binding.switchNotification.setChecked(false);
         }
 
-        switchNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.switchNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
@@ -69,6 +73,27 @@ public class SettingsActivity extends AppCompatActivity {
 //                    submitNotification("Off");
                     Utils.unsubscribeFromTopics(mContext);
                 }
+            }
+        });
+
+        binding.iconBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        binding.rlChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onChangePassword();
+            }
+        });
+
+        binding.rlSubscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSubscription();
             }
         });
 
@@ -115,18 +140,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.iconBack)
-    public void onBack() {
-        onBackPressed();
-    }
 
-    @OnClick(R.id.rlChangePassword)
+
     public void onChangePassword() {
         Intent in = new Intent(mContext, ChangePasswordActivity.class);
         startActivity(in);
     }
 
-    @OnClick(R.id.rlSubscription)
+
     public void onSubscription() {
         Intent in = new Intent(mContext, MySubscriptionsActivity.class);
         startActivity(in);

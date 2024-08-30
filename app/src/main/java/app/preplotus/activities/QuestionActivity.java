@@ -30,6 +30,8 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import app.preplotus.adapters.QuestionNumberAdapter;
+import app.preplotus.databinding.ActivityNotesBinding;
+import app.preplotus.databinding.ActivityQuestionScreenBinding;
 import app.preplotus.model.GeneralResponse;
 import app.preplotus.model.QuestionListResponse;
 import app.preplotus.model.QuestionsData;
@@ -68,36 +70,6 @@ public class QuestionActivity extends AppCompatActivity {
 //    @BindView(R.id.tvQtitle)
 //    AppCompatTextView tvQtitle;
 
-    @BindView(R.id.nested_webview)
-    NestedWebView webView;
-    @BindView(R.id.tvQno)
-    AppCompatTextView tvQno;
-    @BindView(R.id.tvTestTitle)
-    AppCompatTextView tvTestTitle;
-    @BindView(R.id.tvMaxMarks)
-    AppCompatTextView tvMaxMarks;
-    @BindView(R.id.tvNotVisited)
-    AppCompatTextView tvNotVisited;
-    @BindView(R.id.tvAnswered)
-    AppCompatTextView tvAnswered;
-    @BindView(R.id.tvNotAnswered)
-    AppCompatTextView tvNotAnswered;
-    @BindView(R.id.tvTime)
-    AppCompatTextView tvTime;
-    @BindView(R.id.tvMarkedForReview)
-    AppCompatTextView tvMarkedForReview;
-    @BindView(R.id.rgQuestions)
-    LinearLayout rgQuestions;
-    @BindView(R.id.llClearResponse)
-    LinearLayout llClearResponse;
-    @BindView(R.id.llPrev)
-    LinearLayout llPrev;
-    @BindView(R.id.llNext)
-    LinearLayout llNext;
-    @BindView(R.id.imgMarkedForReview)
-    ImageView imgMarkedForReview;
-    @BindView(R.id.imgQuestion)
-    ImageView imgQuestion;
     private String testid = "", marks, time, title, type;
     private Context mContext;
     private APIInterface apiInterface;
@@ -107,10 +79,13 @@ public class QuestionActivity extends AppCompatActivity {
     private CountDownTimer timer;
     private long startTime;
 
+    private ActivityQuestionScreenBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question_screen);
+        binding = ActivityQuestionScreenBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         navbar = findViewById(R.id.navbar);
         toolbar = findViewById(R.id.toolbar);
@@ -150,10 +125,10 @@ public class QuestionActivity extends AppCompatActivity {
                 cnotans = cnotans + 1;
             }
         }
-        tvAnswered.setText("Answered (" + cans + ")");
-        tvNotVisited.setText("Not Visited (" + cnotvis + ")");
-        tvNotAnswered.setText("Not Answered (" + cnotans + ")");
-        tvMarkedForReview.setText("Marked For Review (" + cmarkd + ")");
+        binding.tvAnswered.setText("Answered (" + cans + ")");
+        binding.tvNotVisited.setText("Not Visited (" + cnotvis + ")");
+        binding.tvNotAnswered.setText("Not Answered (" + cnotans + ")");
+        binding.tvMarkedForReview.setText("Marked For Review (" + cmarkd + ")");
     }
 
     private void init() {
@@ -169,11 +144,47 @@ public class QuestionActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
 //        tvTestTitle.setText(title);
 //        tvTestTitle.setText("Hello this is long header name testing for home screen");
-        tvTestTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        tvTestTitle.setSingleLine(true);
-        tvTestTitle.setMarqueeRepeatLimit(50);
-        tvTestTitle.setSelected(true);
+        binding.tvTestTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        binding.tvTestTitle.setSingleLine(true);
+        binding.tvTestTitle.setMarqueeRepeatLimit(50);
+        binding.tvTestTitle.setSelected(true);
         fetchQuestions();
+
+        binding.imgMarkedForReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMarkedForReview();
+            }
+        });
+
+        binding.llClearResponse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClearResponse();
+            }
+        });
+
+        binding.llPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPrev();
+            }
+        });
+
+        binding.llNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onNext();
+            }
+        });
+
+        binding.llFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFinish();
+            }
+        });
+
     }
 
     private void fetchQuestions() {
@@ -235,18 +246,18 @@ public class QuestionActivity extends AppCompatActivity {
         }
         selPos = pos;
         if (selPos == 0) {
-            llPrev.setVisibility(GONE);
+            binding.llPrev.setVisibility(GONE);
         } else {
-            llPrev.setVisibility(VISIBLE);
+            binding.llPrev.setVisibility(VISIBLE);
         }
         if (selPos == (listQuestions.size() - 1)) {
-            llNext.setVisibility(GONE);
+            binding.llNext.setVisibility(GONE);
         } else {
-            llNext.setVisibility(VISIBLE);
+            binding.llNext.setVisibility(VISIBLE);
         }
         QuestionsData data = listQuestions.get(pos);
 
-        tvQno.setText("Question " + (pos + 1));
+        binding.tvQno.setText("Question " + (pos + 1));
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 ////            tvQtitle.setText(Html.fromHtml(data.getTitle().replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
@@ -257,23 +268,23 @@ public class QuestionActivity extends AppCompatActivity {
 //            tvQtitle.setText(Html.fromHtml(data.getTitle().replaceAll("\n", "<br>")));
 //        }
 
-        webView.loadDataWithBaseURL(null, data.getTitle(), "text/html", "UTF-8", null);
+        binding.nestedWebview.loadDataWithBaseURL(null, data.getTitle(), "text/html", "UTF-8", null);
 
-        tvMaxMarks.setText("Max Marks: " + data.getMarks());
+        binding.tvMaxMarks.setText("Max Marks: " + data.getMarks());
 
         ArrayList<String> listAnswer = data.getOption_data();
         ArrayList<String> ans_images = data.getAns_images();
 
         try {
-            rgQuestions.removeAllViews();
+            binding.rgQuestions.removeAllViews();
         } catch (Exception e) {
         }
 
         if (data.getQuestion_Image() != null && data.getQuestion_Image().trim().length() > 0) {
-            Glide.with(mContext).load(data.getQuestion_Image()).into(imgQuestion);
-            imgQuestion.setVisibility(VISIBLE);
+            Glide.with(mContext).load(data.getQuestion_Image()).into(binding.imgQuestion);
+            binding.imgQuestion.setVisibility(VISIBLE);
         } else {
-            imgQuestion.setVisibility(GONE);
+            binding.imgQuestion.setVisibility(GONE);
         }
 
         for (int i = 0; i < listAnswer.size(); i++) {
@@ -319,51 +330,51 @@ public class QuestionActivity extends AppCompatActivity {
 //                    }
 //                }
 //            });
-            rgQuestions.addView(view);
+            binding.rgQuestions.addView(view);
         }
 
         if (listQuestions.get(selPos).getIsanswered().equals("1")) {
-            llClearResponse.setVisibility(VISIBLE);
+            binding.llClearResponse.setVisibility(VISIBLE);
         } else {
-            llClearResponse.setVisibility(GONE);
+            binding.llClearResponse.setVisibility(GONE);
         }
 
         listQuestions.get(pos).setIsvisited("1");
         if (listQuestions.get(selPos).getMarkedforreview().equals("1")) {
-            imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
         } else {
-            imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 
-    @OnClick(R.id.imgMarkedForReview)
+
     public void onMarkedForReview() {
         if (listQuestions.get(selPos).getMarkedforreview().equals("1")) {
             listQuestions.get(selPos).setMarkedforreview("");
-            imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.grey), android.graphics.PorterDuff.Mode.SRC_IN);
         } else {
             listQuestions.get(selPos).setMarkedforreview("1");
-            imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.imgMarkedForReview.setColorFilter(ContextCompat.getColor(mContext, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 
-    @OnClick(R.id.llClearResponse)
+
     public void onClearResponse() {
         listQuestions.get(selPos).setIsanswered("");
         showQuestion(selPos);
     }
 
-    @OnClick(R.id.llPrev)
+
     public void onPrev() {
         showQuestion(selPos - 1);
     }
 
-    @OnClick(R.id.llNext)
+
     public void onNext() {
         showQuestion(selPos + 1);
     }
 
-    @OnClick(R.id.llFinish)
+
     public void onFinish() {
         CustomDialog customDialog = new CustomDialog(QuestionActivity.this, listQuestions);
         customDialog.show();
@@ -467,11 +478,11 @@ public class QuestionActivity extends AppCompatActivity {
                                     TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis))),
                             (TimeUnit.MILLISECONDS.toMinutes(millis) -
                                     TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))), (TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))));
-                    tvTime.setText(hms);
+                    binding.tvTime.setText(hms);
                 }
 
                 public void onFinish() {
-                    tvTime.setText("Time Up");
+                    binding.tvTime.setText("Time Up");
                     onFinishApiCall();
                 }
             }.start();
@@ -493,6 +504,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         new AlertDialog.Builder(mContext)
                 .setTitle(getResources().getString(R.string.quit_exam))
                 .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {

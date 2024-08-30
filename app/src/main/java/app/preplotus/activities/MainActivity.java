@@ -39,6 +39,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import app.preplotus.MyApp;
 import app.preplotus.R;
+import app.preplotus.databinding.ActivityMainBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
 import app.preplotus.fragments.DashboardFragment;
 import app.preplotus.fragments.HomeFragment;
 import app.preplotus.fragments.NotificationsFragment;
@@ -117,10 +119,12 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     public static ArrayList<String> listSelCats = new ArrayList<>();
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         ButterKnife.bind(this);
 //        Utils.setPrefData(USER_ID,"33", MainActivity.this);
         toolbarText = findViewById(R.id.txt);
@@ -240,6 +244,63 @@ public class MainActivity extends AppCompatActivity {
 //        tvLogin.setText("User: "+Utils.getPrefData(USER_ID, mContext));
 //        tvCategory.setText("Category: "+Utils.getPrefData(CATEGORY_ID, mContext));
         checkForceUpdate();
+
+        binding.llMyResults.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMyResults();
+            }
+        });
+
+        binding.llHelpSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onHelpSupport();
+            }
+        });
+
+        binding.llAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAbout();
+            }
+        });
+
+        binding.llPracticeEarn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPracticeEarn();
+            }
+        });
+
+        binding.llReferEarn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onReferEarn();
+            }
+        });
+
+        binding.llMyCoins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMyCoins();
+            }
+        });
+
+        binding.llLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLogout();
+            }
+        });
+
+        binding.llHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onHome();
+            }
+        });
+
    }
 
     private void checkForceUpdate(){
@@ -335,21 +396,21 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.show(ID_HOME, true);
     }
 
-    @OnClick(R.id.llMyResults)
+
     public void onMyResults() {
         drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(mContext, MyResultsActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.llHelpSupport)
+
     public void onHelpSupport() {
         drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(mContext, ContactUsActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.llAbout)
+
     public void onAbout() {
         drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(mContext, ContentActivity.class);
@@ -357,34 +418,34 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.llPracticeEarn)
+
     public void onPracticeEarn() {
         drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(mContext, PracticeEarnActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.llReferEarn)
+
     public void onReferEarn() {
         drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(mContext, ReferEarnActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.llMyCoins)
+
     public void onMyCoins() {
         drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(mContext, MyCoinsActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.llLogout)
+
     public void onLogout() {
         drawer.closeDrawer(GravityCompat.START);
         logoutDialog();
     }
 
-    @OnClick(R.id.llHome)
+
     public void onHome() {
         drawer.closeDrawer(GravityCompat.START);
         bottomNavigation.show(ID_HOME, true);
