@@ -33,6 +33,9 @@ import com.bumptech.glide.Glide;
 import app.preplotus.R;
 import app.preplotus.activities.ResultsActivity;
 import app.preplotus.adapters.QuestionPalletAdapter;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.FragmentSolutionBinding;
 import app.preplotus.model.SolutionData;
 import app.preplotus.model.SolutionResponse;
 import app.preplotus.network.APIClient;
@@ -45,65 +48,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SolutionFragment extends Fragment {
 
-    @BindView(R.id.tvQno)
-    AppCompatTextView tvQno;
     //    @BindView(R.id.tvQtitle)
 //    AppCompatTextView tvQtitle;
-    @BindView(R.id.nested_webview)
-    NestedWebView webView;
-    @BindView(R.id.llAnswers)
-    LinearLayout llAnswers;
-    @BindView(R.id.tvAttempt)
-    AppCompatTextView tvAttempt;
-    @BindView(R.id.tvYourAnswer)
-    AppCompatTextView tvYourAnswer;
-    @BindView(R.id.tvCorrectAnswer)
-    AppCompatTextView tvCorrectAnswer;
-    @BindView(R.id.tvMaxMarks)
-    AppCompatTextView tvMaxMarks;
-    @BindView(R.id.tvScoredMarks)
-    AppCompatTextView tvScoredMarks;
-    @BindView(R.id.webViewSolution)
-    TouchyWebView webViewSolution;
-    @BindView(R.id.llPrev)
-    LinearLayout llPrev;
-    @BindView(R.id.scrollView)
-    NestedScrollView scrollView;
-    @BindView(R.id.llNext)
-    LinearLayout llNext;
-    @BindView(R.id.rv)
-    RecyclerView rv;
-    @BindView(R.id.imgQuestion)
-    ImageView imgQuestion;
-    @BindView(R.id.tvNotVisited)
-    AppCompatTextView tvNotVisited;
-    @BindView(R.id.tvAnswered)
-    AppCompatTextView tvAnswered;
-    @BindView(R.id.tvNotAnswered)
-    AppCompatTextView tvNotAnswered;
-    @BindView(R.id.tvMarkedForReview)
-    AppCompatTextView tvMarkedForReview;
+
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
     private ArrayList<SolutionData> listSolutions;
     private int selPos = 0;
 
+    private FragmentSolutionBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_solution, null);
-        ButterKnife.bind(this, v);
+//        View v = inflater.inflate(R.layout.fragment_solution, null);
+        binding = FragmentSolutionBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        ButterKnife.bind(this, v);
         init();
-        return v;
+        return binding.getRoot();
     }
 
     private void init() {
@@ -113,6 +83,20 @@ public class SolutionFragment extends Fragment {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
         fetchSolution();
+
+        binding.llPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPrev();
+            }
+        });
+
+        binding.llNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onNext();
+            }
+        });
     }
 
     private void fetchSolution() {
@@ -155,24 +139,24 @@ public class SolutionFragment extends Fragment {
     public void showQuestion(final int pos) {
 
         try {
-            scrollView.scrollTo(0, 0);
+            binding.scrollView.scrollTo(0, 0);
         } catch (Exception e) {
         }
 
         selPos = pos;
         if (selPos == 0) {
-            llPrev.setVisibility(GONE);
+            binding.llPrev.setVisibility(GONE);
         } else {
-            llPrev.setVisibility(VISIBLE);
+            binding.llPrev.setVisibility(VISIBLE);
         }
         if (selPos == (listSolutions.size() - 1)) {
-            llNext.setVisibility(GONE);
+            binding.llNext.setVisibility(GONE);
         } else {
-            llNext.setVisibility(VISIBLE);
+            binding.llNext.setVisibility(VISIBLE);
         }
         SolutionData data = listSolutions.get(pos);
 
-        tvQno.setText("Question: " + (pos + 1));
+        binding.tvQno.setText("Question: " + (pos + 1));
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            tvQtitle.setText("                        " + Html.fromHtml(data.getQue_title().replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT));
@@ -180,22 +164,22 @@ public class SolutionFragment extends Fragment {
 //            tvQtitle.setText("                        " + Html.fromHtml(data.getQue_title().replaceAll("\n", "<br>")));
 //        }
 
-        webView.loadDataWithBaseURL(null, data.getQue_title(), "text/html", "UTF-8", null);
+        binding.nestedWebview.loadDataWithBaseURL(null, data.getQue_title(), "text/html", "UTF-8", null);
 
-        tvMaxMarks.setText(data.getMax_marks());
-        tvScoredMarks.setText(data.getScored_marks());
+        binding.tvMaxMarks.setText(data.getMax_marks());
+        binding.tvScoredMarks.setText(data.getScored_marks());
 
         if (data.getQuestion_Image() != null && data.getQuestion_Image().trim().length() > 0) {
-            Glide.with(mContext).load(data.getQuestion_Image()).into(imgQuestion);
-            imgQuestion.setVisibility(VISIBLE);
+            Glide.with(mContext).load(data.getQuestion_Image()).into(binding.imgQuestion);
+            binding.imgQuestion.setVisibility(VISIBLE);
         } else {
-            imgQuestion.setVisibility(GONE);
+            binding.imgQuestion.setVisibility(GONE);
         }
 
         ArrayList<String> listAnswer = data.getAnswer_array();
 
         try {
-            llAnswers.removeAllViews();
+            binding.llAnswers.removeAllViews();
         } catch (Exception e) {
         }
 
@@ -241,23 +225,23 @@ public class SolutionFragment extends Fragment {
             } else {
                 imgSign.setVisibility(GONE);
             }
-            llAnswers.addView(ll);
+            binding.llAnswers.addView(ll);
         }
 
-        tvYourAnswer.setText("Option" + data.getUser_selected_id());
-        tvCorrectAnswer.setText("Option" + data.getCorrect_answer_id());
+        binding.tvYourAnswer.setText("Option" + data.getUser_selected_id());
+        binding.tvCorrectAnswer.setText("Option" + data.getCorrect_answer_id());
         if (!data.getCorrect_answer_id().contains(data.getUser_selected_id())) {
-            tvAttempt.setText("Incorrect");
-            tvAttempt.setTextColor(ContextCompat.getColor(mContext, R.color.red));
-            tvYourAnswer.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+            binding.tvAttempt.setText("Incorrect");
+            binding.tvAttempt.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+            binding.tvYourAnswer.setTextColor(ContextCompat.getColor(mContext, R.color.red));
             if (data.getUser_selected_id().equals("0")) {
-                tvAttempt.setText("Unanswered");
-                tvYourAnswer.setText("Unanswered");
+                binding.tvAttempt.setText("Unanswered");
+                binding.tvYourAnswer.setText("Unanswered");
             }
         } else {
-            tvAttempt.setText("Correct");
-            tvAttempt.setTextColor(ContextCompat.getColor(mContext, R.color.green));
-            tvYourAnswer.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+            binding.tvAttempt.setText("Correct");
+            binding.tvAttempt.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+            binding.tvYourAnswer.setTextColor(ContextCompat.getColor(mContext, R.color.green));
         }
 
         String solution = data.getSolution();
@@ -265,41 +249,41 @@ public class SolutionFragment extends Fragment {
         try {
 
             if (solution != null && solution.trim().length() != 0) {
-                webViewSolution.setVisibility(VISIBLE);
-                webViewSolution.getSettings().setJavaScriptEnabled(true);
-                webViewSolution.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-                webViewSolution.getSettings().setBuiltInZoomControls(false);
-                webViewSolution.getSettings().setLoadWithOverviewMode(false);
-                webViewSolution.getSettings().setLoadsImagesAutomatically(true);
+                binding.webViewSolution.setVisibility(VISIBLE);
+                binding.webViewSolution.getSettings().setJavaScriptEnabled(true);
+                binding.webViewSolution.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+                binding.webViewSolution.getSettings().setBuiltInZoomControls(false);
+                binding.webViewSolution.getSettings().setLoadWithOverviewMode(false);
+                binding.webViewSolution.getSettings().setLoadsImagesAutomatically(true);
 
-                webViewSolution.getSettings().setUseWideViewPort(false);
-                webViewSolution.setWebChromeClient(new WebChromeClient());
+                binding.webViewSolution.getSettings().setUseWideViewPort(false);
+                binding.webViewSolution.setWebChromeClient(new WebChromeClient());
 
-                webViewSolution.loadDataWithBaseURL(null, solution, null, "UTF-8", null);
+                binding.webViewSolution.loadDataWithBaseURL(null, solution, null, "UTF-8", null);
             } else {
-                webViewSolution.setVisibility(GONE);
+                binding.webViewSolution.setVisibility(GONE);
             }
         } catch (Exception e) {
         }
 
     }
 
-    @OnClick(R.id.llPrev)
+
     public void onPrev() {
         showQuestion(selPos - 1);
     }
 
-    @OnClick(R.id.llNext)
+
     public void onNext() {
         showQuestion(selPos + 1);
     }
 
     public void setQuestionsPallete() {
         LinearLayoutManager manager = new GridLayoutManager(mContext, 4);
-        rv.setLayoutManager(manager);
+        binding.rv.setLayoutManager(manager);
         QuestionPalletAdapter adapter = new QuestionPalletAdapter(mContext, SolutionFragment.this, listSolutions);
-        rv.setHasFixedSize(true);
-        rv.setAdapter(adapter);
+        binding.rv.setHasFixedSize(true);
+        binding.rv.setAdapter(adapter);
         int cans = 0, cnotans = 0, cnotvis = 0, cmarkd = 0;
         for (int i = 0; i < listSolutions.size(); i++) {
             final SolutionData data = listSolutions.get(i);
@@ -313,10 +297,10 @@ public class SolutionFragment extends Fragment {
                 cnotans = cnotans + 1;
             }
         }
-        tvAnswered.setText("Answered (" + cans + ")");
-        tvNotVisited.setText("Not Visited (" + cnotvis + ")");
-        tvNotAnswered.setText("Not Answered (" + cnotans + ")");
-        tvMarkedForReview.setText("Marked For Review (" + cmarkd + ")");
+        binding.tvAnswered.setText("Answered (" + cans + ")");
+        binding.tvNotVisited.setText("Not Visited (" + cnotvis + ")");
+        binding.tvNotAnswered.setText("Not Answered (" + cnotans + ")");
+        binding.tvMarkedForReview.setText("Marked For Review (" + cmarkd + ")");
     }
 
 }

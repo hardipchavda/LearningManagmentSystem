@@ -74,9 +74,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,7 +113,8 @@ public class LoginOptionsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginOptionsBinding.inflate(getLayoutInflater());
-        ButterKnife.bind(this);
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
         init();
     }
 

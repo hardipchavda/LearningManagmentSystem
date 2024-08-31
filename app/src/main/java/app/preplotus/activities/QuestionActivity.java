@@ -53,9 +53,7 @@ import static app.preplotus.utilities.Constants.USER_ID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,7 +84,7 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityQuestionScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         navbar = findViewById(R.id.navbar);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

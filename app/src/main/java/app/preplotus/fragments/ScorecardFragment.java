@@ -22,6 +22,9 @@ import app.preplotus.R;
 
 import app.preplotus.activities.ResultsActivity;
 import app.preplotus.adapters.LeaderBoardAdapter;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.FragmentScorecardBinding;
 import app.preplotus.model.ScoreboardData;
 import app.preplotus.model.ScorecardResponse;
 import app.preplotus.network.APIClient;
@@ -31,53 +34,27 @@ import app.preplotus.utilities.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScorecardFragment extends Fragment {
 
-    @BindView(R.id.tvTotalMarks)
-    AppCompatTextView tvTotalMarks;
-    @BindView(R.id.tvPercentage)
-    AppCompatTextView tvPercentage;
-    @BindView(R.id.tvRank)
-    AppCompatTextView tvRank;
-    @BindView(R.id.tvQueAttempted)
-    AppCompatTextView tvQueAttempted;
-    @BindView(R.id.tvQueLeft)
-    AppCompatTextView tvQueLeft;
-    @BindView(R.id.tvQueCorrect)
-    AppCompatTextView tvQueCorrect;
-    @BindView(R.id.tvQueIncorrect)
-    AppCompatTextView tvQueIncorrect;
-    @BindView(R.id.tvCorrectMarks)
-    AppCompatTextView tvCorrectMarks;
-    @BindView(R.id.tvNegativeMarks)
-    AppCompatTextView tvNegativeMarks;
-    @BindView(R.id.tvTimeTaken)
-    AppCompatTextView tvTimeTaken;
-    @BindView(R.id.rvLeaderboard)
-    RecyclerView rvLeaderboard;
-    @BindView(R.id.llLeaderboard)
-    LinearLayout llLeaderboard;
-    @BindView(R.id.viewRank)
-    View viewRank;
-    @BindView(R.id.rlRank)
-    RelativeLayout rlRank;
 
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private FragmentScorecardBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_scorecard, null);
-        ButterKnife.bind(this, v);
+        binding = FragmentScorecardBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        View v = inflater.inflate(R.layout.fragment_scorecard, null);
+//        ButterKnife.bind(this, v);
         init();
-        return v;
+        return binding.getRoot();
     }
 
     private void init() {
@@ -86,7 +63,7 @@ public class ScorecardFragment extends Fragment {
         pd = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
-        rvLeaderboard.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvLeaderboard.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         fetchScorecardData();
     }
 
@@ -117,22 +94,22 @@ public class ScorecardFragment extends Fragment {
                         if (callback.getStatus().equals("success")) {
                             try {
                                 ScoreboardData data = callback.getScoreCarddata();
-                                tvTotalMarks.setText(data.getGotMarks() + "/" + data.getTotalmarks());
-                                tvRank.setText(data.getGotRank() + "/" + data.getTotalrank());
-                                tvPercentage.setText(data.getPercentage() + "%");
-                                tvQueAttempted.setText(data.getAttempted_que());
-                                tvQueLeft.setText(data.getLeft_que());
-                                tvQueCorrect.setText(data.getCorrect_que());
-                                tvQueIncorrect.setText(data.getIncorrect_que());
-                                tvCorrectMarks.setText(data.getCorrect_marks());
-                                tvNegativeMarks.setText(data.getNegative_marks());
-                                tvTimeTaken.setText(data.getTotal_time_taken() + " min");
+                                binding.tvTotalMarks.setText(data.getGotMarks() + "/" + data.getTotalmarks());
+                                binding.tvRank.setText(data.getGotRank() + "/" + data.getTotalrank());
+                                binding.tvPercentage.setText(data.getPercentage() + "%");
+                                binding.tvQueAttempted.setText(data.getAttempted_que());
+                                binding.tvQueLeft.setText(data.getLeft_que());
+                                binding.tvQueCorrect.setText(data.getCorrect_que());
+                                binding.tvQueIncorrect.setText(data.getIncorrect_que());
+                                binding.tvCorrectMarks.setText(data.getCorrect_marks());
+                                binding.tvNegativeMarks.setText(data.getNegative_marks());
+                                binding.tvTimeTaken.setText(data.getTotal_time_taken() + " min");
                                 if (!((ResultsActivity) mContext).getType().equals("practice")) {
-                                    rvLeaderboard.setAdapter(new LeaderBoardAdapter(mContext, callback.getLeaderBoardData()));
+                                    binding.rvLeaderboard.setAdapter(new LeaderBoardAdapter(mContext, callback.getLeaderBoardData()));
                                 } else {
-                                    rlRank.setVisibility(View.GONE);
-                                    llLeaderboard.setVisibility(View.GONE);
-                                    viewRank.setVisibility(View.GONE);
+                                    binding.rlRank.setVisibility(View.GONE);
+                                    binding.llLeaderboard.setVisibility(View.GONE);
+                                    binding.viewRank.setVisibility(View.GONE);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

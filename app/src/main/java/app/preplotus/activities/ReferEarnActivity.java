@@ -19,9 +19,7 @@ import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.databinding.ActivityReferEarnBinding;
 import app.preplotus.utilities.Utils;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 public class ReferEarnActivity extends AppCompatActivity {
 
@@ -35,7 +33,7 @@ public class ReferEarnActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityReferEarnBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         init();
     }
 

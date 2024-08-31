@@ -51,9 +51,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +80,7 @@ public class SubscriptionActivity extends AppCompatActivity implements PaymentRe
         super.onCreate(savedInstanceState);
         binding = ActivitySubscriptionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
     }

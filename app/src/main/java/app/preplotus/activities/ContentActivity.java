@@ -49,9 +49,7 @@ import app.preplotus.utilities.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,10 +79,11 @@ public class ContentActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityContentBinding.inflate(getLayoutInflater());
-        ButterKnife.bind(this);
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
         llProgress = findViewById(R.id.llProgress);
         exo_pause = findViewById(R.id.exo_pause);
-        exo_play = findViewById(R.id.exoPlay);
+        exo_play = findViewById(R.id.exo_play);
         spinSpeed = findViewById(R.id.spinSpeed);
         init();
     }

@@ -14,9 +14,7 @@ import app.preplotus.R;
 
 import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.databinding.ActivityResultScreenBinding;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 public class ResultsActivity extends AppCompatActivity {
 
@@ -33,7 +31,7 @@ public class ResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityResultScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         init();
         viewPager = findViewById(R.id.viewpager);
         tabLayout = findViewById(R.id.tabLayout);

@@ -31,9 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +49,7 @@ public class MyResultsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMyResultsBinding.inflate(getLayoutInflater());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         init();
     }
 

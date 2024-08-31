@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import app.preplotus.R;
 import app.preplotus.activities.ResultsActivity;
 import app.preplotus.adapters.CompareAdapter;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.CompareFragmentBinding;
 import app.preplotus.model.CompareResponse;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
@@ -25,8 +28,6 @@ import app.preplotus.utilities.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,15 +38,16 @@ public class CompareReportFragment extends Fragment {
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
-    @BindView(R.id.rvCompare)
-    RecyclerView rvCompare;
+
+    private CompareFragmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.compare_fragment, null);
-        ButterKnife.bind(this, v);
+        binding = CompareFragmentBinding.inflate(getLayoutInflater());
+//        View v = inflater.inflate(R.layout.compare_fragment, null);
+//        ButterKnife.bind(this, v);
         init();
-        return v;
+        return binding.getRoot();
     }
     private void init() {
         mContext = getActivity();
@@ -53,8 +55,8 @@ public class CompareReportFragment extends Fragment {
         pd = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
-        rvCompare.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
-        rvCompare.setHasFixedSize(true);
+        binding.rvCompare.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        binding.rvCompare.setHasFixedSize(true);
         fetchCompareData();
     }
     private void fetchCompareData(){
@@ -71,7 +73,7 @@ public class CompareReportFragment extends Fragment {
                         CompareResponse callback = response.body();
                         if (callback.getStatus().equals("success")) {
                             CompareAdapter adapter = new CompareAdapter(mContext, callback.getResults());
-                            rvCompare.setAdapter(adapter);
+                            binding.rvCompare.setAdapter(adapter);
                         }
                     }
                 } catch (Exception e) {

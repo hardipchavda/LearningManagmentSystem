@@ -35,6 +35,9 @@ import app.preplotus.activities.ContentActivity;
 import app.preplotus.activities.NotesActivity;
 import app.preplotus.activities.ReferEarnActivity;
 import app.preplotus.adapters.TestsAdapter;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.FragmentDashboardBinding;
 import app.preplotus.model.CategoryData;
 import app.preplotus.model.DashboardResponse;
 import app.preplotus.model.MyExamPreferencesResponse;
@@ -52,9 +55,7 @@ import java.util.concurrent.TimeUnit;
 import app.preplotus.activities.SubscriptionActivity;
 import app.preplotus.adapters.NotesAdapter;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,37 +64,21 @@ public class DashboardFragment extends Fragment {
 
     public ArrayList<String> superGroupTopics, superGroupNames;
 
-    @BindView(R.id.img2)
-    ImageView img2;
-    @BindView(R.id.rvNotes)
-    RecyclerView rvNotes;
-    @BindView(R.id.rvExam)
-    RecyclerView rvExam;
-    @BindView(R.id.card2Tests)
-    CardView card2Test;
-    @BindView(R.id.cvInviteNow)
-    CardView cvInviteNow;
-    @BindView(R.id.cvNotes)
-    CardView cvNotes;
-    @BindView(R.id.subplan)
-    LinearLayout subPlan;
-    @BindView(R.id.llUserGuide)
-    LinearLayout llUserGuide;
-    @BindView(R.id.llViewAll)
-    LinearLayout llViewAll;
-
     private Context mContext;
 
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private FragmentDashboardBinding binding;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentDashboardBinding.inflate(getLayoutInflater());
 
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        ButterKnife.bind(this, root);
+//        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+//        ButterKnife.bind(this, root);
         init();
-        return root;
+        return binding.getRoot();
     }
 
     private void init() {
@@ -103,7 +88,7 @@ public class DashboardFragment extends Fragment {
         pd.setMessage(getResources().getString(R.string.please_wait));
         pd.setCancelable(false);
 
-        llViewAll.setOnClickListener(new View.OnClickListener() {
+        binding.llViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, NotesActivity.class);
@@ -111,7 +96,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        cvInviteNow.setOnClickListener(new View.OnClickListener() {
+        binding.cvInviteNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ReferEarnActivity.class);
@@ -119,7 +104,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        cvNotes.setOnClickListener(new View.OnClickListener() {
+        binding.cvNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, NotesActivity.class);
@@ -127,7 +112,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        card2Test.setOnClickListener(new View.OnClickListener() {
+        binding.card2Tests.setOnClickListener(new View.OnClickListener() {
             @Override
 
             public void onClick(View v) {
@@ -140,10 +125,10 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rvExam.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvNotes.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        binding.rvExam.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
-        subPlan.setOnClickListener(new View.OnClickListener() {
+        binding.subplan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SubscriptionActivity.class);
@@ -151,7 +136,7 @@ public class DashboardFragment extends Fragment {
 
             }
         });
-        llUserGuide.setOnClickListener(new View.OnClickListener() {
+        binding.llUserGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ContentActivity.class);
@@ -160,7 +145,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        img2.setOnClickListener(new View.OnClickListener() {
+        binding.img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new HomeFragment();
@@ -195,6 +180,34 @@ public class DashboardFragment extends Fragment {
                 }
             }
         }
+
+        binding.btnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFbAccount();
+            }
+        });
+
+        binding.btnInsta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openInstaAccount();
+            }
+        });
+
+        binding.btnTelegram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTeleAccount();
+            }
+        });
+
+        binding.imgRateUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRateUs();
+            }
+        });
 
     }
 
@@ -328,12 +341,12 @@ public class DashboardFragment extends Fragment {
                         DashboardResponse callback = response.body();
                         if (callback.getNotesData()!=null){
                             NotesAdapter notesAdapter = new NotesAdapter(mContext, callback.getNotesData());
-                            rvNotes.setAdapter(notesAdapter);
+                            binding.rvNotes.setAdapter(notesAdapter);
                         }
 
                         if (callback.getExamData()!=null){
                             TestsAdapter testsAdapter = new TestsAdapter(mContext, callback.getExamData());
-                            rvExam.setAdapter(testsAdapter);
+                            binding.rvExam.setAdapter(testsAdapter);
                         }
                     }
                 } catch (Exception e) {
@@ -350,21 +363,21 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.btnFacebook)
+
     public void openFbAccount() {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(Utils.getPrefData(FACEBOOK_URL, mContext)));
         startActivity(i);
     }
 
-    @OnClick(R.id.btnInsta)
+
     public void openInstaAccount() {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(Utils.getPrefData(INSTAGRAM_URL, mContext)));
         startActivity(i);
     }
 
-    @OnClick(R.id.btnTelegram)
+
     public void openTeleAccount() {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(Utils.getPrefData(TELEGRAM_URL, mContext)));
@@ -372,7 +385,7 @@ public class DashboardFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.imgRateUs)
+
     public void onRateUs() {
         String url = "https://play.google.com/store/apps/details?id="+mContext.getPackageName();
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));

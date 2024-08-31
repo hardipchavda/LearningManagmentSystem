@@ -12,8 +12,7 @@ import app.preplotus.R;
 
 import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.databinding.ActivityPracticeEarnBinding;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 public class PracticeEarnActivity extends AppCompatActivity {
 
@@ -26,7 +25,7 @@ public class PracticeEarnActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPracticeEarnBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         init();
     }
 

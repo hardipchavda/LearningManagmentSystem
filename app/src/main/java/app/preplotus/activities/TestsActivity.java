@@ -31,9 +31,7 @@ import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
 import app.preplotus.utilities.Utils;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,7 +53,7 @@ public class TestsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTestsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         from = getIntent().getStringExtra("from");
         init();
     }

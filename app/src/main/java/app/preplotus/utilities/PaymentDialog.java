@@ -15,42 +15,25 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import app.preplotus.R;
 import app.preplotus.activities.SubscriptionActivity;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.BtmshtPaymentBinding;
 import app.preplotus.network.APIClient;
 import app.preplotus.network.APIInterface;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 
 
 public class PaymentDialog extends BottomSheetDialogFragment {
 
-    @BindView(R.id.tvPlanName)
-    AppCompatTextView tvPlanName;
-    @BindView(R.id.tvCouponCode)
-    AppCompatTextView tvCouponCode;
-    @BindView(R.id.tvPlanPrice)
-    AppCompatTextView tvPlanPrice;
-    @BindView(R.id.tvCouponDiscount)
-    AppCompatTextView tvCouponDiscount;
-    @BindView(R.id.tvFinalAmount)
-    AppCompatTextView tvFinalAmount;
-    @BindView(R.id.tvReedemCoins)
-    AppCompatTextView tvReedemCoins;
-    @BindView(R.id.tvLabelCoins)
-    AppCompatTextView tvLabelCoins;
-    @BindView(R.id.llReedemCoins)
-    LinearLayout llReedemCoins;
-    @BindView(R.id.llCouponDiscount)
-    LinearLayout llCouponDiscount;
-    @BindView(R.id.llCoupon)
-    LinearLayout llCoupon;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
     private String planName, planPrice, couponCode, couponDiscount, finalPrice, userCoins, planId, validityId;
     private int coinUsed = 0;
     private boolean isRedeem = false;
+
+    private BtmshtPaymentBinding binding;
 
     public PaymentDialog(Context contex, String planName, String planPrice, String couponCode, String couponDiscount, String finalPrice, String userCoins, String planId, String validityId) {
         mContext = contex;
@@ -66,10 +49,12 @@ public class PaymentDialog extends BottomSheetDialogFragment {
 
     @Override
     public void setupDialog(@NonNull Dialog dialog, int style) {
-        View contentView = View.inflate(getContext(), R.layout.btmsht_payment, null);
-        ButterKnife.bind(this, contentView);
+        binding = BtmshtPaymentBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        View contentView = View.inflate(getContext(), R.layout.btmsht_payment, null);
+//        ButterKnife.bind(this, contentView);
         init();
-        dialog.setContentView(contentView);
+        dialog.setContentView(binding.getRoot());
     }
 
     private void init() {
@@ -81,21 +66,36 @@ public class PaymentDialog extends BottomSheetDialogFragment {
 //        getPreferences();
 
         if (couponCode.trim().length() != 0) {
-            llCoupon.setVisibility(View.VISIBLE);
-            llCouponDiscount.setVisibility(View.VISIBLE);
-            tvCouponCode.setText(couponCode);
-            tvCouponDiscount.setText("₹ "+couponDiscount);
+            binding.llCoupon.setVisibility(View.VISIBLE);
+            binding.llCouponDiscount.setVisibility(View.VISIBLE);
+            binding.tvCouponCode.setText(couponCode);
+            binding.tvCouponDiscount.setText("₹ "+couponDiscount);
         }
         if (userCoins.trim().length() > 0 && Integer.parseInt(userCoins) > COIN_VAL) {
-            llReedemCoins.setVisibility(View.VISIBLE);
-            tvLabelCoins.setText("You have " + userCoins + " Coins");
+            binding.llReedemCoins.setVisibility(View.VISIBLE);
+            binding.tvLabelCoins.setText("You have " + userCoins + " Coins");
         }
-        tvFinalAmount.setText("₹ "+finalPrice);
-        tvPlanName.setText(planName);
-        tvPlanPrice.setText("₹ "+planPrice);
+        binding.tvFinalAmount.setText("₹ "+finalPrice);
+        binding.tvPlanName.setText(planName);
+        binding.tvPlanPrice.setText("₹ "+planPrice);
+
+        binding.tvReedemCoins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRedeemCoins();
+            }
+        });
+
+        binding.tvMakePayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMakePayment();
+            }
+        });
+
     }
 
-    @OnClick(R.id.tvReedemCoins)
+
     public void onRedeemCoins() {
         if (!isRedeem) {
             isRedeem = true;
@@ -110,15 +110,15 @@ public class PaymentDialog extends BottomSheetDialogFragment {
                 finalPrice = "" + (Integer.parseInt(finalPrice) - coinsVal);
                 coinUsed = coinsVal;
             }
-            tvFinalAmount.setText("₹ "+finalPrice);
-            tvLabelCoins.setText("Coins discount \n(Coins used " + (coinUsed * COIN_VAL) + ")");
-            tvReedemCoins.setText("" + coinUsed);
-            tvReedemCoins.setBackgroundColor(ContextCompat.getColor(mContext,R.color.trans));
-            tvReedemCoins.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            binding.tvFinalAmount.setText("₹ "+finalPrice);
+            binding.tvLabelCoins.setText("Coins discount \n(Coins used " + (coinUsed * COIN_VAL) + ")");
+            binding.tvReedemCoins.setText("" + coinUsed);
+            binding.tvReedemCoins.setBackgroundColor(ContextCompat.getColor(mContext,R.color.trans));
+            binding.tvReedemCoins.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         }
     }
 
-    @OnClick(R.id.tvMakePayment)
+
     public void onMakePayment() {
           dismiss();
 

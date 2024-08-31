@@ -68,8 +68,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
 //        Utils.setPrefData(USER_ID,"33", MainActivity.this);
         toolbarText = findViewById(R.id.txt);
 //        tvLogin = findViewById(R.id.tvLogin);

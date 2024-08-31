@@ -27,9 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,7 +49,8 @@ public class InstructionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityInstructionsBinding.inflate(getLayoutInflater());
-        ButterKnife.bind(this);
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
 
         init();
 

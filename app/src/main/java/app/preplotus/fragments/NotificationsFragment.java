@@ -28,6 +28,9 @@ import app.preplotus.R;
 
 import app.preplotus.activities.MainActivity;
 import app.preplotus.activities.SettingsActivity;
+import app.preplotus.databinding.ActivityContentBinding;
+import app.preplotus.databinding.ActivityMySubscriptionBinding;
+import app.preplotus.databinding.Profilefragment3noBinding;
 import app.preplotus.model.LoginSignupResponse;
 import app.preplotus.model.LoginUserData;
 import app.preplotus.network.APIClient;
@@ -40,9 +43,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -52,32 +53,27 @@ import retrofit2.Response;
 
 public class NotificationsFragment extends Fragment {
 
-    @BindView(R.id.etName)
-    AppCompatEditText etName;
-    @BindView(R.id.etEmail)
-    AppCompatEditText etEmail;
-    @BindView(R.id.etPhoneNumber)
-    AppCompatEditText etPhoneNumber;
-    @BindView(R.id.imageUser)
-    ImageView imageUser;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private File actualImage;
 
-    private View view;
     private Context mContext;
     private APIInterface apiInterface;
     private ProgressDialog pd;
 
+    private Profilefragment3noBinding binding;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.profilefragment3no, container, false);
-        ButterKnife.bind(this, view);
+        binding = Profilefragment3noBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        view = inflater.inflate(R.layout.profilefragment3no, container, false);
+//        ButterKnife.bind(this, view);
 
         init();
 
-        return view;
+        return binding.getRoot();
     }
 
     private void init() {
@@ -93,9 +89,31 @@ public class NotificationsFragment extends Fragment {
             fetchProfileDetails();
         }
 
+        binding.imgSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettings();
+            }
+        });
+
+        binding.btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onUpdateProfile();
+            }
+        });
+
+        binding.rlProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+            }
+        });
+
+
     }
 
-    @OnClick(R.id.imgSettings)
+
     public void openSettings() {
 
         Intent in = new Intent(mContext, SettingsActivity.class);
@@ -123,13 +141,13 @@ public class NotificationsFragment extends Fragment {
                         if (callback.getStatus().equals("success")) {
                             LoginUserData data = callback.getData();
                             Utils.setPrefData(USER_IMAGE, data.getUserImage(), mContext);
-                            etName.setText(data.getName());
-                            etEmail.setText(data.getEmail());
-                            etPhoneNumber.setText(data.getPhone());
+                            binding.etName.setText(data.getName());
+                            binding.etEmail.setText(data.getEmail());
+                            binding.etPhoneNumber.setText(data.getPhone());
 
                             try {
                                 if (data.getUserImage() != null && data.getUserImage().trim().length() > 0) {
-                                    Glide.with(mContext).load(data.getUserImage()).placeholder(R.drawable.profile).into(imageUser);
+                                    Glide.with(mContext).load(data.getUserImage()).placeholder(R.drawable.profile).into(binding.imageUser);
                                 }
                             } catch (Exception e) {
                             }
@@ -149,13 +167,13 @@ public class NotificationsFragment extends Fragment {
         });
     }
 
-    @OnClick(R.id.btnUpdateProfile)
+
     public void onUpdateProfile() {
 
         if (Utils.isNetworkAvailableShowToast(mContext)) {
-            if (Utils.isNullE(etName)) {
+            if (Utils.isNullE(binding.etName)) {
                 Utils.showToast(mContext, getResources().getString(R.string.name_msg));
-            } else if ((Utils.valE(etPhoneNumber)).trim().length() < 10) {
+            } else if ((Utils.valE(binding.etPhoneNumber)).trim().length() < 10) {
                 Utils.showToast(mContext, getResources().getString(R.string.valid_phone_msg));
             } else {
                 apiUpdateProfile();
@@ -166,9 +184,9 @@ public class NotificationsFragment extends Fragment {
     private void apiUpdateProfile() {
         MultipartBody.Part body2 = null;
         Map<String, RequestBody> params = new HashMap<>();
-        RequestBody userName = RequestBody.create(MultipartBody.FORM, Utils.valE(etName));
+        RequestBody userName = RequestBody.create(MultipartBody.FORM, Utils.valE(binding.etName));
         params.put("name", userName);
-        RequestBody userNumber = RequestBody.create(MultipartBody.FORM, Utils.valE(etPhoneNumber));
+        RequestBody userNumber = RequestBody.create(MultipartBody.FORM, Utils.valE(binding.etPhoneNumber));
         params.put("phone", userNumber);
         RequestBody userId = RequestBody.create(MultipartBody.FORM, Utils.getPrefData(USER_ID, mContext));
         params.put("userid", userId);
@@ -191,7 +209,7 @@ public class NotificationsFragment extends Fragment {
                     if (Utils.checkResponseCode(response.code(), mContext) && response.body()!=null) {
                         LoginSignupResponse callback = response.body();
                         Utils.showToast(mContext,callback.getMessage());
-                        Utils.setPrefData(USER_NAME, Utils.valE(etName), mContext);
+                        Utils.setPrefData(USER_NAME, Utils.valE(binding.etName), mContext);
 
                         if (actualImage!=null){
 
@@ -216,7 +234,7 @@ public class NotificationsFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.rlProfile)
+
     public void openGallery(){
 
         Intent intent = new Intent();
@@ -240,7 +258,7 @@ public class NotificationsFragment extends Fragment {
                 Bitmap bm = BitmapFactory.decodeStream(inputStream);
                 actualImage = getFile(bm);
 
-                Glide.with(mContext).load(BitmapFactory.decodeFile(actualImage.getAbsolutePath())).into(imageUser);
+                Glide.with(mContext).load(BitmapFactory.decodeFile(actualImage.getAbsolutePath())).into(binding.imageUser);
             } catch (Exception e) {
                 Toast.makeText(mContext, getResources().getString(R.string.something_wrong_msg), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();

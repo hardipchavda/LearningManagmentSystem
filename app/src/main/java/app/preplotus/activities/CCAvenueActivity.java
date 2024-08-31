@@ -39,8 +39,7 @@ package app.preplotus.activities;
         import app.preplotus.network.APIClient;
         import app.preplotus.network.APIInterface;
         import app.preplotus.utilities.Utils;
-        import butterknife.ButterKnife;
-        import butterknife.OnClick;
+
         import okhttp3.ResponseBody;
         import retrofit2.Call;
         import retrofit2.Callback;
@@ -65,7 +64,7 @@ public class CCAvenueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCcavenueBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         init();
 
 //get rsa key method
