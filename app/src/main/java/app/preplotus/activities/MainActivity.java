@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
 //        Utils.setPrefData(USER_ID,"33", MainActivity.this);
         toolbarText = findViewById(R.id.txt);

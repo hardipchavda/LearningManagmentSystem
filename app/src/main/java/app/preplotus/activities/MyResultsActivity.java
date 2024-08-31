@@ -49,6 +49,7 @@ public class MyResultsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMyResultsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
         init();
     }

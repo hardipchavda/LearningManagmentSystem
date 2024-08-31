@@ -44,6 +44,7 @@ public class MyCoinsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMyCoinsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
         init();
     }

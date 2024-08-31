@@ -13,14 +13,19 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import app.preplotus.R;
+import app.preplotus.databinding.ActivitySplashScreenBinding;
 import app.preplotus.utilities.Utils;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
+    private ActivitySplashScreenBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
+//        setContentView(R.layout.activity_splash_screen);
+        setContentView(binding.getRoot());
 
 //        Utils.setPrefData(USER_ID, "1", SplashScreenActivity.this);
 //        Utils.setPrefData(CATEGORY_ID, "1", SplashScreenActivity.this);
