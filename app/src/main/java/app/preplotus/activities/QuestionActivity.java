@@ -502,7 +502,6 @@ public class QuestionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         new AlertDialog.Builder(mContext)
                 .setTitle(getResources().getString(R.string.quit_exam))
                 .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
