@@ -14,7 +14,7 @@ import app.preplotus.R;
 import java.util.ArrayList;
 
 
-public class HomeImageActivity  extends AppCompatActivity {
+public class HomeImageActivity  extends BaseActivity {
 
     Spinner spinner;
     @Override

@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SubTopicsActivity extends AppCompatActivity {
+public class SubTopicsActivity extends BaseActivity {
 
 
     private String topicId, topicTitle;

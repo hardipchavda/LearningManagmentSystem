@@ -14,7 +14,7 @@ import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.databinding.ActivityPracticeEarnBinding;
 
 
-public class PracticeEarnActivity extends AppCompatActivity {
+public class PracticeEarnActivity extends BaseActivity {
 
     private Context mContext;
 

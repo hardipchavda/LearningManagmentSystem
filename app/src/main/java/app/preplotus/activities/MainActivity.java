@@ -77,7 +77,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     public final static int ID_VENDORS = 2;
     private final static int ID_HOME = 1;
     private final static int ID_SHOP = 3;

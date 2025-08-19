@@ -16,7 +16,7 @@ import app.preplotus.R;
 import app.preplotus.databinding.ActivitySplashScreenBinding;
 import app.preplotus.utilities.Utils;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends BaseActivity {
 
     private ActivitySplashScreenBinding binding;
 

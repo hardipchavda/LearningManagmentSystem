@@ -21,7 +21,7 @@ import app.preplotus.utilities.Utils;
 
 
 
-public class ReferEarnActivity extends AppCompatActivity {
+public class ReferEarnActivity extends BaseActivity {
 
     private Context mContext;
     private String shareText = "";

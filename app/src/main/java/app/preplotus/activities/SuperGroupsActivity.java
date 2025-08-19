@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SuperGroupsActivity extends AppCompatActivity {
+public class SuperGroupsActivity extends BaseActivity {
 
 
     private Context mContext;

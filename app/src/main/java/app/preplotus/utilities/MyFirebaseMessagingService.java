@@ -52,25 +52,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         } else if (redirect_type.equals("Subscription")) {
             Intent intent = new Intent(this, SubscriptionActivity.class);
             intent.putExtra("from","notification");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         } else if (redirect_type.equals("AllTest")) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("redirect_type", "alltest");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         } else if (redirect_type.equals("AllNotes")) {
             Intent intent = new Intent(this, NotesActivity.class);
             intent.putExtra("from","notification");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         } else if (redirect_type.equals("Notes")) {
             Intent intent = new Intent(this, SubTopicsActivity.class);
             intent.putExtra("topicId", notes_id);
@@ -78,7 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra("from","notification");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         } else if (redirect_type.equals("Test")) {
             Intent intent = new Intent(this, TestsActivity.class);
             intent.putExtra("id", test_id);
@@ -91,7 +91,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         }
 
         String channelId = "prep_lms";

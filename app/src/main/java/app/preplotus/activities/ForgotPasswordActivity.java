@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends BaseActivity {
 
     private Context mContext;
     private APIInterface apiInterface;

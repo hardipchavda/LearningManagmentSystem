@@ -16,7 +16,7 @@ import app.preplotus.databinding.ActivityNotesBinding;
 import app.preplotus.databinding.ActivityResultScreenBinding;
 
 
-public class ResultsActivity extends AppCompatActivity {
+public class ResultsActivity extends BaseActivity {
 
     public String testid, title, type = "", result_id = "";
     ResultAdapter adapter;

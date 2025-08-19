@@ -46,7 +46,7 @@ package app.preplotus.activities;
         import retrofit2.Response;
 
 
-public class CCAvenueActivity extends AppCompatActivity {
+public class CCAvenueActivity extends BaseActivity {
    // Intent mainIntent;
  //  private Context mContext;
    private String webUrl="";

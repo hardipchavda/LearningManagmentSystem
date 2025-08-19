@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChangePasswordActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends BaseActivity {
 
 
     private Context mContext;

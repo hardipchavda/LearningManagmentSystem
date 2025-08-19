@@ -55,7 +55,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContentActivity extends AppCompatActivity {
+public class ContentActivity extends BaseActivity {
 
 //    @BindView(R.id.btnPlay)
 //    FloatingActionButton btnPlay;

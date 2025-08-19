@@ -58,7 +58,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SubscriptionActivity extends AppCompatActivity implements PaymentResultWithDataListener {
+public class SubscriptionActivity extends BaseActivity implements PaymentResultWithDataListener {
 
 
     public int planPrice = 0;

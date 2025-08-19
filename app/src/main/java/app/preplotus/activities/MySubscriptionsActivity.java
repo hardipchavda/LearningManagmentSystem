@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MySubscriptionsActivity extends AppCompatActivity {
+public class MySubscriptionsActivity extends BaseActivity {
 
     private Context mContext;
     private APIInterface apiInterface;

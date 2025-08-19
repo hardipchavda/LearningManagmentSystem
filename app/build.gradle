@@ -34,7 +34,7 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src\\main\\res', 'src\\main\\res\\drawable-xhdpi'
+                srcDirs 'src\\main\\res', 'src\\main\\res\\drawable-xhdpi', 'src\\main\\res\\values-v35'
             }
         }
     }
