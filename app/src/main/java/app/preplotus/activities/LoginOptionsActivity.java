@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
@@ -527,20 +528,26 @@ public class LoginOptionsActivity extends AppCompatActivity {
 
 
     public void onTermsClick(){
-        Intent intent = new Intent(mContext, ContentActivity.class);
-        intent.putExtra("type","url");
-        intent.putExtra("title",getResources().getString(R.string.terms_condi));
-        intent.putExtra("content",Utils.getPrefData(TERMS_CONDITION_URL,mContext));
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, ContentActivity.class);
+//        intent.putExtra("type","url");
+//        intent.putExtra("title",getResources().getString(R.string.terms_condi));
+////        intent.putExtra("content",Utils.getPrefData(TERMS_CONDITION_URL,mContext));
+//        intent.putExtra("content","https://preplotus.com/terms-and-conditions/");
+//        startActivity(intent);
+        String url = "https://preplotus.com/terms-and-conditions/";
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
 
     public void onPrivacyClick(){
-        Intent intent = new Intent(mContext, ContentActivity.class);
-        intent.putExtra("type","url");
-        intent.putExtra("title",getResources().getString(R.string.privacy_policy));
-        intent.putExtra("content",Utils.getPrefData(PRIVACY_POLICY_URL,mContext));
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, ContentActivity.class);
+//        intent.putExtra("type","url");
+//        intent.putExtra("title",getResources().getString(R.string.privacy_policy));
+////        intent.putExtra("content",Utils.getPrefData(PRIVACY_POLICY_URL,mContext));
+//        intent.putExtra("content","https://preplotus.com/privacy-policy/");
+//        startActivity(intent);
+        String url = "https://preplotus.com/privacy-policy/";
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
 }

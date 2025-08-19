@@ -8,12 +8,12 @@ def library_versionName = '1.2.0'
 
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace = "com.etebarian.meowbottomnavigation"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 34
+        targetSdkVersion 35
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -31,6 +31,6 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
 
 }
