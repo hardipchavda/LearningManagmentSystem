@@ -12,8 +12,10 @@
         <!-- Status bar -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
-        <!-- This forces UI to be below system bars -->
-        <item name="android:windowLayoutInDisplayCutoutMode">never</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:enforceStatusBarContrast">true</item>
     </style>
     <style name="ImageCircleTheme">
         <item name="cornerFamily">rounded</item>
